@@ -20,6 +20,7 @@ import java.lang.Math;
 
 	If two command-line parameters are not provided, print to standard error 
 	"usage: java Roll [#dice] [#sides]" and exit.
+
 	Add, commit, and push all files to your private cse1325 GitHub repository.
 	¹After Lecture 03, you'll recognize this as a static method rather than 
 	a function.
@@ -28,14 +29,22 @@ import java.lang.Math;
 public class Roller{
 	public static void main(String[] args){
 		int[] dieRolls = new int[Integer.parseInt(args[0])];
+		int sum = 0;
 
+		// Fill our array and increase sum
 		for(int i = 0; i < Integer.parseInt(args[0]); i++){
-
 			dieRolls[i] = (int)(Math.random() * Integer.parseInt(args[1])) + 1; 
-			System.out.println(dieRolls[i]);
-			//float dieRoll = Math.random();
-			//System.out.println(dieRoll + "\n" + dieRoll * Integer.parseInt(args[1]));
-			//dieRolls[i] =  * Integer.parseInsInteger.parseInt(args[0])t(args[1]);
+			sum += dieRolls[i];
 		}
+			
+		// Sort our array
+		Arrays.sort(dieRolls);
+
+		// Print our array
+		for(int i : dieRolls)
+			System.out.print(i + " ");
+
+		System.out.println("\nSum: " + sum);
+		System.out.println("Average: " + sum/Integer.parseInt(args[0]));
 	}
 } 
