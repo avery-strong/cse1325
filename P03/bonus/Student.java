@@ -6,6 +6,7 @@ public class Student{
 	// Constructor
 	public Student(String name){ studentName = name; }
 	public String getName(){ return studentName; }
+	public double getNumGrades(){ return examNumGrades; }
 	public boolean addExam(double grade){ 
 		if(grade >= 0){
 			examSum += grade; 
@@ -17,9 +18,9 @@ public class Student{
 		return false;
 	}
 	public double average(){
-		if(examNumGrades == 0)
-			return 100;
-		else
+		if(examNumGrades > 0)
 			return examSum/examNumGrades;
+		
+		return 100;
 	}
 }
