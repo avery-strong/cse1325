@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <project name="Hello Project" default="build">
-	<presetdef>
+	<presetdef name="javac">
 		<javac includeantruntime="false" />
 	</presetdef>
 
@@ -17,5 +17,4 @@
 			</fileset>
 		</delete>
 	</target>
-	
 </project>
