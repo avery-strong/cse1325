@@ -11,9 +11,9 @@ public class Student{
 		examNumGrades++;
 	}
 	public double average(){
-		if(examNumGrades == 0)
-			return 100;
-		else
+		if(examNumGrades > 0)
 			return examSum/examNumGrades;
+		
+		return 100;
 	}
 }

@@ -2,14 +2,12 @@ import java.util.Scanner;
 
 public class Grades{
 	public static void main(String[] args){
-		String name;
 		boolean exit = true;
 		Scanner in = new Scanner(System.in);
 
 		System.out.print("Enter student's name: ");
-		name = in.nextLine();
 
-		Student student = new Student(name);
+		Student student = new Student(in.nextLine());
 
 		do{
 			double grade;
