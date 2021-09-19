@@ -53,8 +53,7 @@ public class Boom{
 
 				// If the phrase received was incorrect
 				if(puzzle.solve(s) == false){
-					System.out.print("\nYOUR FIRECRACKER WENT KABOOM!!!n");
-					System.exit(0);
+					break;
 				}
 				// Guessed the phrase correctly
 				else{
@@ -79,6 +78,7 @@ public class Boom{
 			}
 		}while(burn);
 		
+		System.out.print("\nYOUR FIRECRACKER WENT KABOOM!!!");
 	}
 	public static void main(String[] args){
 		cli();

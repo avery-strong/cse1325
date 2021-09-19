@@ -1,18 +1,4 @@
 /*
-	This class represents the puzzle part of the game. 
-
-	 
-
-	The getSolution() method will return the solution attribute, e.g., to 
-	print if the player guesses but misses the phrase.
-
-	
-
-	
-
-	The solve method provides a proposed solution to the puzzle. 
-	It returns true if the parameter matches solution, false otherwise.
-
 	Iterating over each character in a string can be accomplished (at least) 
 	two ways: A traditional 3-term for loop with String subscripting will 
 	work, aka for(int i=0; i<s.size(); ++i) char c=s[i]; Perhaps more 
@@ -56,7 +42,7 @@ public class Puzzle{
 	public boolean solve(String proposedSolution){
 		if(solution.equals(proposedSolution.toLowerCase()))
 			return true;
-		
+
 		return false;
 	}
 	public String getSolution(){ return solution; }
