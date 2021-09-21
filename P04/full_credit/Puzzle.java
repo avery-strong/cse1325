@@ -1,10 +1,3 @@
-/*
-	Iterating over each character in a string can be accomplished (at least) 
-	two ways: A traditional 3-term for loop with String subscripting will 
-	work, aka for(int i=0; i<s.size(); ++i) char c=s[i]; Perhaps more 
-	convenient is a for-each loop, aka for(char c : s.toCharArray()) It's 
-	that toCharArray() String method that you (and I) need to remember.
-*/
 public class Puzzle{
 
 	// Constructor
