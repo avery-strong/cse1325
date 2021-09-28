@@ -1,7 +1,14 @@
 import java.util.*; // Necessary for ArrayList
 import java.util.Scanner;// Necessary for Scanner
 
-
+/*
+	I made a big mistake with not starting this assignment sooner and took
+	a trip over the weekend hoping to work on it during. I made a lot of
+	progress in the little time I was able to work on it so I am confident
+	I understand the material but do not want to sacrifice sleep when I 
+	could use it for the exam on Thursday but I understand how this will
+	reflect my grade on this assignment.
+*/
 public class Store{
 	public static void cli(){
 		Scanner in = new Scanner(System.in);
@@ -30,6 +37,7 @@ public class Store{
 
 		System.out.println("\nChoose from the menu which item you would like to purchase, follewed by the quantity.");
 		
+		// User filling cart
 		do{
 			System.out.print("\nMenu Choice: ");
 			menuChoice = in.nextInt();
@@ -46,12 +54,11 @@ public class Store{
 			System.out.print("Quantity: ");
 
 			// We take in our quantity during the .placeOrder() function call
-			cart.add(products.get(menuChoice).placeOrder(in.nextInt()));
+			cart.add(products.get(menuChoice+1).placeOrder(in.nextInt()));
 
 			// Eat the new line
 			in.nextLine();
 		}while(shopping);
-		
 		
 	}
 	public static void main(String[] args){
