@@ -11,12 +11,14 @@ public class Taxfree extends Product{
 	public Taxfree(String name, double cost){
 		super(name, cost);
 	}
-	//@Override
-	/*public Product placeOrder(int quantity){
-		super(quantity);
-		
-		return product;
-	}*/
+	@Override
+	public Product placeOrder(int quantity){
+		this.quantity = quantity;
+
+		Taxfree a = new Taxfree(this.name, this.unitCost);
+
+		return a;
+	}
 	@Override
 	public final double price(){
 		return quantity * unitCost;

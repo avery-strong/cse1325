@@ -18,17 +18,19 @@ public class Taxed extends Product{
 		super(name, cost);
 	}
 	public void setSales(double salesTaxRate){
-
+		this.tax = tax;
 	}
-	/*@Override
+	@Override
 	public Product placeOrder(int quantity){
-		super(quantity);
+		this.quantity = quantity;
 
-		return product;
-	}*/
+		Taxed a = new Taxed(this.name, this.unitCost);
+
+		return a;
+	}
 	@Override
 	public double price(){
-		return quantity * unitCost * (1 + tax);
+		return quantity * unitCost * tax;
 	}
 
 	private double tax;
