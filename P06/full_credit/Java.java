@@ -1,4 +1,5 @@
 import java.util.*;
+
 public class Java extends Product{
 	public Java(String name, double price, double cost, Darkness darkness){
 		super(name, price, cost);
@@ -9,7 +10,14 @@ public class Java extends Product{
 	}
 	@Override
 	public String toString(){
-		return super.toString();
+		StringBuilder str = new StringBuilder();
+		for(Shot s : shots){
+			str.append(s.toString());
+			str.append(", ");
+		}
+		String s = str.toString();
+
+		return super.toString() + "\nDarkness: " + this.darkness + "\nShots: " + s;
 	}
 	protected Darkness darkness;
 	protected ArrayList<Shot> shots = new ArrayList<>();

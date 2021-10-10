@@ -7,7 +7,10 @@ public class Donut extends Product{
 	}
 	@Override
 	public String toString(){
-		return "";
+		if(sprinkles)
+			return super.toString() + "\nFrosting: " + this.frosting + "\nFilling: " + this.filling + "\nSprinkles: yes";
+
+		return super.toString() + "\nFrosting: " + this.frosting + "\nFilling: " + this.filling + "\nSprinkles: no";
 	}
 	protected Frosting frosting;
 	protected Filling filling;

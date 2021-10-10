@@ -1,4 +1,3 @@
-
 abstract class Product{
 	public Product(String name, double price, double cost){
 		this.name = name;
@@ -10,7 +9,7 @@ abstract class Product{
 	}
 	@Override
 	public String toString(){
-		return "Product: " + name + "\nPrice: " + price + "\nCost: " + cost;
+		return "\nProduct: " + name + "\nPrice: " + price + "\nCost: " + cost;
 	}
 	protected String name;
 	protected double price;
