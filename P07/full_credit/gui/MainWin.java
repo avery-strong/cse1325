@@ -1,8 +1,8 @@
 package gui;
-
 import java.awt.*;
 import javax.swing.*;
-import java.store.*;
+import java.util.ArrayList;
+import store.*;
 
 public class MainWin extends JFrame{
 	public MainWin(String mainWindowTitle){
@@ -17,18 +17,24 @@ public class MainWin extends JFrame{
 		// File
 		JMenu file = new JMenu("File");
 		JMenuItem quit = new JMenuItem("Quit");
-		file.add(quit);
 
 		// Create
 		JMenu create = new JMenu("Create");
 		JMenuItem donut = new JMenuItem("Donut");
 		JMenuItem java = new JMenuItem("Java");
-		create.add(donut);
-		create.add(java);
 
 		// Help
 		JMenu help = new JMenu("Help");
 		JMenuItem about = new JMenuItem("About");
+
+		//quit.addActionListener(event -> onQuitClick());
+		donut.addActionListener(event -> onCreateDonutClick());
+		//java.addActionListener(event -> onCreateJavaClick());
+		//about.addActionListener(event -> onButtonClick());
+
+		file.add(quit);
+		create.add(donut);
+		create.add(java);
 		help.add(about);
 
 		JMenuBar menuBar = new JMenuBar();
@@ -68,17 +74,34 @@ public class MainWin extends JFrame{
 		************************************/
 
 		data = new JLabel("Welcome to Jade");
-		Store store = new Store("");
 		getContentPane().add(data);
 
 		setVisible(true);
 	}
 	protected void onCreateJavaClick(){}
-	protected void onCreateDonutClick(){}
+	protected void onCreateDonutClick(){
+		JFrame anew = new JFrame();
+		Frosting[] frostings = Frosting.values();
+		String[] strFrost = new String[frostings.length];
+		for(int i = 0; i < strFrost.length; i++){
+			strFrost[i] = frostings[i].name();
+		}
+
+		JOptionPane jPane = new JOptionPane();
+		String name = jPane.showInputDialog("Name");
+		String price = jPane.showInputDialog(this, "Price");
+		String cost = jPane.showInputDialog(this, "Cost");
+		JComboBox<String> frostBox = new JComboBox<>(strFrost);
+		String frosting = jPane.add(frostBox);
+		
+		int sprinkles = jPane.showConfirmDialog(this, "Sprinkles?");
+		// donut name, donut price, donut cost, donut frosting, donut filling, sprinkles
+		//Donut d = new Donut(name, Double.valueOf(price), Double.valueOf(cost));
+	}
 	protected void onAboutClick(){}
 	protected void onQuitClick(){}
 
-	//private Store store;
+	private Store store;
 	private JLabel data;
 	private JMenuItem mJava, mDonut;
 	private JButton bJava, bDonut;
