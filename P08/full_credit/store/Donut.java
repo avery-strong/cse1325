@@ -13,16 +13,18 @@ public class Donut extends Product {
         if(sprinkles && frosting == Frosting.Unfrosted)
             throw new IllegalArgumentException("Unfrosted Donut cannot have sprinkles");
     }
-    public Donut(BufferedReader in){
-        this(name, price, cost, frosting, filling, sprinkles);
-        name = in.readLine();
-        price = (double)in.readLine();
-        cost = (double)in.readLine();
-        frosting = out.readLine();
-        filling = out.readLine();
-        sprinkles = in.readLine();
+    public Donut(BufferedReader in) throws IOException{
+        super(name, price, cost);
+        Object objFrost, objFill, objSprink;
 
-        
+        name = in.readLine();
+        price = Double.parseDouble(in.readLine());
+        cost = Double.parseDouble(in.readLine());
+        objFrost = in.readLine();
+        frosting = (Frosting)objFrost;
+        objFill = in.readLine();
+        filling = (Filling)objFill;
+        sprinkles = Boolean.parseBoolean(in.readLine());        
     }
 
     public void save(BufferedWriter out){

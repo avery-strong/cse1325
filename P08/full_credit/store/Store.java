@@ -12,7 +12,6 @@ public class Store {
         this.products = new ArrayList<>();
     }
     public Store(BufferedReader in) throws IOException{
-        this(storeName);
         storeName = in.readLine();
     }
     public void save(BufferedWriter out) throws IOException{

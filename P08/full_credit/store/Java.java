@@ -12,12 +12,11 @@ public class Java extends Product {
         this.darkness = darkness;
         this.shots = new ArrayList<>();
     }
-    public Java(BufferedReader in){
-        this(name, price, cost, darkness);
+    public Java(BufferedReader in) throws IOException{
+        super(name, price, cost);
         name = in.readLine();
-        price = (double)in.readLine();
-        cost = (double)in.readLine();
-        
+        price = Double.parseDouble(in.readLine());
+        cost = Double.parseDouble(in.readLine());
     }
     public void addShot(Shot shot) {
         shots.add(shot);

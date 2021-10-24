@@ -11,12 +11,9 @@ public class Product {
         this.cost  = cost;
     }
     public Product(BufferedReader in) throws IOException{
-        this(name, price, cost);
         name = in.readLine();
-        price = (double)in.readLine();
-        cost = (double)in.readLine();
-
-        
+        price = Double.parseDouble(in.readLine());
+        cost = Double.parseDouble(in.readLine());
     }
     public void save(BufferedWriter out) throws IOException{
         out.write("" + name + '\n');
