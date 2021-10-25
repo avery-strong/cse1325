@@ -19,12 +19,19 @@ public class Java extends Product {
 
         this.darkness = Darkness.valueOf(in.readLine());
         strShot = in.readLine();
-        while(strShot != null){
+        while(!strShot.equals("donut") && !strShot.equals("java") && !strShot.equals(null)){
             this.shots.add(Shot.valueOf(strShot));
+            // I can see how this would fail
+            in.mark(50);
             strShot = in.readLine();
         }
+
+        in.reset();
+
     }
     public void save(BufferedWriter out) throws IOException{
+        // Buffer
+        out.write("" + "java" + '\n');
         // Product
         out.write("" + name + '\n');
         out.write("" + price + '\n');
@@ -34,10 +41,6 @@ public class Java extends Product {
         for(Shot s : shots){
             out.write("" + s + '\n');
         }
-
-        // //////////////////////////////////// Delete this
-        System.out.println("Java save is being accessed");
-        
     }
     public void addShot(Shot shot) {
         shots.add(shot);

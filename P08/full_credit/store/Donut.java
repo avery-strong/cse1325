@@ -22,6 +22,8 @@ public class Donut extends Product {
     }
 
     public void save(BufferedWriter out) throws IOException{
+        // Buffer
+        out.write("" + "donut" + '\n'); 
         // Product
         out.write("" + name + '\n');
         out.write("" + price + '\n');
@@ -30,9 +32,6 @@ public class Donut extends Product {
         out.write("" + frosting + '\n');
         out.write("" + filling + '\n');
         out.write("" + sprinkles + '\n');
-
-        // //////////////////////////////////// Delete this
-        System.out.println("Donut save is being accessed");
     }
 
     @Override

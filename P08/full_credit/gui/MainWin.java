@@ -163,13 +163,24 @@ public class MainWin extends JFrame {
 
             try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
                 store = new Store(br);
+                String buffer;
 
-                Donut d = new Donut(br);
-                //Java j = new Java(br);
+                // Buffers is read and determines what constructor to call 
+                buffer = br.readLine();
+                while(buffer != null){
+                    if(buffer.equals("donut")){
+                        Donut d = new Donut(br);
+                        store.addProduct(d);
+                        
+                    }
+                    if(buffer.equals("java")){
+                        Java j = new Java(br);
+                        store.addProduct(j);
+                    }
 
-                //Product p = new Product(br);
+                    buffer = br.readLine();
+                }
 
-                store.addProduct(d);
                 updateDisplay();
             }catch (Exception e){
                 JOptionPane.showMessageDialog(this,"Unable to open " + fileName + '\n' + e, 
