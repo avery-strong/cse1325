@@ -13,10 +13,31 @@ public class Java extends Product {
         this.shots = new ArrayList<>();
     }
     public Java(BufferedReader in) throws IOException{
-        super(name, price, cost);
-        name = in.readLine();
-        price = Double.parseDouble(in.readLine());
-        cost = Double.parseDouble(in.readLine());
+        super(in);
+        this.shots = new ArrayList<>();
+        String strShot;
+
+        this.darkness = Darkness.valueOf(in.readLine());
+        strShot = in.readLine();
+        while(strShot != null){
+            this.shots.add(Shot.valueOf(strShot));
+            strShot = in.readLine();
+        }
+    }
+    public void save(BufferedWriter out) throws IOException{
+        // Product
+        out.write("" + name + '\n');
+        out.write("" + price + '\n');
+        out.write("" + cost + '\n');
+        // Java
+        out.write("" + darkness + '\n');
+        for(Shot s : shots){
+            out.write("" + s + '\n');
+        }
+
+        // //////////////////////////////////// Delete this
+        System.out.println("Java save is being accessed");
+        
     }
     public void addShot(Shot shot) {
         shots.add(shot);

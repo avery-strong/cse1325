@@ -14,26 +14,25 @@ public class Donut extends Product {
             throw new IllegalArgumentException("Unfrosted Donut cannot have sprinkles");
     }
     public Donut(BufferedReader in) throws IOException{
-        super(name, price, cost);
-        Object objFrost, objFill, objSprink;
+        super(in);
 
-        name = in.readLine();
-        price = Double.parseDouble(in.readLine());
-        cost = Double.parseDouble(in.readLine());
-        objFrost = in.readLine();
-        frosting = (Frosting)objFrost;
-        objFill = in.readLine();
-        filling = (Filling)objFill;
-        sprinkles = Boolean.parseBoolean(in.readLine());        
+        this.frosting = Frosting.valueOf(in.readLine());
+        this.filling = Filling.valueOf(in.readLine());
+        this.sprinkles = Boolean.parseBoolean(in.readLine());
     }
 
-    public void save(BufferedWriter out){
+    public void save(BufferedWriter out) throws IOException{
+        // Product
         out.write("" + name + '\n');
         out.write("" + price + '\n');
         out.write("" + cost + '\n');
+        // Donut
         out.write("" + frosting + '\n');
         out.write("" + filling + '\n');
         out.write("" + sprinkles + '\n');
+
+        // //////////////////////////////////// Delete this
+        System.out.println("Donut save is being accessed");
     }
 
     @Override

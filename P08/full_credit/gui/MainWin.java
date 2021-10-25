@@ -163,6 +163,13 @@ public class MainWin extends JFrame {
 
             try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
                 store = new Store(br);
+
+                Donut d = new Donut(br);
+                //Java j = new Java(br);
+
+                //Product p = new Product(br);
+
+                store.addProduct(d);
                 updateDisplay();
             }catch (Exception e){
                 JOptionPane.showMessageDialog(this,"Unable to open " + fileName + '\n' + e, 
@@ -173,6 +180,12 @@ public class MainWin extends JFrame {
     protected void onSaveClick(){
         try(BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))){
             store.save(bw);
+            Product p;
+            
+            for(int i = 0; i < store.numberOfProducts(); i++){
+                p = store.getProduct(i);
+                p.save(bw);
+            }
         }catch(Exception e){
             JOptionPane.showMessageDialog(this, "Unable to open " + fileName + '\n' + e, "Failed", JOptionPane.ERROR_MESSAGE); 
         }
