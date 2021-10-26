@@ -18,6 +18,7 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -52,7 +53,7 @@ public class MainWin extends JFrame {
         super(title);
         store = new Store("JADE");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 200);
+        setSize(500, 200);
         fileName = new File("untitles.jade");
         
         // /////// ////////////////////////////////////////////////////////////////
@@ -103,7 +104,34 @@ public class MainWin extends JFrame {
         // Add a toolbar to the PAGE_START region below the menu
         JToolBar toolbar = new JToolBar("JADE Controls");
 
-        // Create the 3 buttons using the icons provided
+        // Create the 7 buttons using the icons provided
+        bNew  = new JButton(new ImageIcon("gui/resources/new_store.png"));
+          bNew.setActionCommand("Create a new Store");
+          bNew.setToolTipText("Create a new Store");
+          toolbar.add(bNew);
+          bNew.addActionListener(event -> onNewClick());
+
+        bOpen = new JButton(new ImageIcon("gui/resources/open.png"));
+          bOpen.setActionCommand("Open a file");
+          bOpen.setToolTipText("Open a previously saved file");
+          toolbar.add(bOpen);
+          bOpen.addActionListener(event -> onOpenClick());
+
+         bSave = new JButton(new ImageIcon("gui/resources/save.png"));
+          bSave.setActionCommand("About JADE Manager");
+          bSave.setToolTipText("About JADE Manager");
+          toolbar.add(bSave);
+          bSave.addActionListener(event -> onSaveClick());
+
+        bSaveAs = new JButton(new ImageIcon("gui/resources/save_as.png"));
+          bSaveAs.setActionCommand("About JADE Manager");
+          bSaveAs.setToolTipText("About JADE Manager");
+          toolbar.add(bSaveAs);
+          bSaveAs.addActionListener(event -> onSaveAsClick());
+
+        // Put some distance between our buttons
+        toolbar.add(Box.createHorizontalStrut(25));
+
         bJava  = new JButton(new ImageIcon("gui/resources/new_java.png"));
           bJava.setActionCommand("Create new Java");
           bJava.setToolTipText("Create a new coffee selection");
@@ -116,7 +144,10 @@ public class MainWin extends JFrame {
           toolbar.add(bDonut);
           bDonut.addActionListener(event -> onCreateDonutClick());
 
-        JButton bAbout = new JButton(new ImageIcon("gui/resources/about.png"));
+        // Put some distance between our buttons
+        toolbar.add(Box.createHorizontalStrut(25));
+
+        bAbout = new JButton(new ImageIcon("gui/resources/about.png"));
           bAbout.setActionCommand("About JADE Manager");
           bAbout.setToolTipText("About JADE Manager");
           toolbar.add(bAbout);
@@ -293,6 +324,14 @@ public class MainWin extends JFrame {
           + "<p><font size=-2>https://en.wikipedia.org/wiki/File:Simpsons_Donut.svg</p>"
           + "<p>Help Icon by Vector Stall via the Flat Icon license</p>"
           + "<p><font size=-2>https://www.flaticon.com/premium-icon/question-mark_3444393</p>"
+          + "<p>Apps Folder Home Icon by alecive, licensed under CC Attribution-Share Alike 4.0</p>"
+          +"<p><font size=-2>https://iconarchive.com/show/flatwoken-icons-by-alecive/Apps-Folder-Home-icon.html</p>"
+          + "<p>Open File Icon by Custom Icon Design, licensed under Free for non-commercial use.</p>"
+          +"<p><font size=-2>https://iconarchive.com/show/pretty-office-9-icons-by-custom-icon-design/open-file-icon.html</p>"
+          + "<p>Save Icon by Custom Icon Design, licensed under Free for non-commercial use.</p>"
+          +"<p><font size=-2>https://iconarchive.com/show/pretty-office-7-icons-by-custom-icon-design/Save-icon.html</p>"
+          + "<p>Icon Quality Png File Png File Png File Png File transparent background by Ahkâm, licensed under Personal Use Only</p>"
+          +"<p><font size=-2>https://www.freeiconspng.com/img/2488</p>"
           + "<br/>"
           + "</html>");
         artists.setAlignmentX(JLabel.CENTER_ALIGNMENT);
@@ -392,6 +431,7 @@ public class MainWin extends JFrame {
     private JButton bOpen;
     private JButton bSave;
     private JButton bSaveAs;
+    private JButton bAbout;
 
     // Menu
     private JMenuItem mJava;                  // Button to select 1 stick
