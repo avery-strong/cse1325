@@ -306,8 +306,8 @@ public class MainWin extends JFrame {
         about.add(title);
 
         JLabel copyright = new JLabel("<html>"
-          + "<p>Version 0.2</p>"
-          + "<p>Copyright 2021 by George F. Rice</p>"
+          + "<p>Version 0.3</p>"
+          + "<p>Copyright 2021 by Avery Strong</p>"
           + "<p>Licensed under Gnu GPL 3.0</p>"
           + "<br/>"
           + "</html>");
@@ -315,6 +315,12 @@ public class MainWin extends JFrame {
         about.add(copyright);
                     
        JLabel artists = new JLabel("<html>"
+          + "<p>Title: Java and Donut Express</p>"
+          + "<p>Author: George F. Rice</p>"
+          + "<p>Date: October 19, 2021</p>"
+          + "<p>Code Version: 0.2 [Source Code]</p>"
+          + "<p>Availability: https://github.com/prof-rice/cse1325-prof/tree/main/P07/full_credit</p>"
+          + "<br/>"
           + "<p>JADE Logo by SaxDeux, licensed under CC BY-SA 3.0</p>"
           + "<p><font size=-2>https://commons.wikimedia.org/wiki/File:Logo_JADE.png</p>"
           + "<p>Flat Coffee Cup Icon by superawesomevectors, licensed under CC BY-SA 3.0</p>"
