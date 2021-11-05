@@ -20,7 +20,7 @@ public class Product {
         out.write("" + price + '\n');
         out.write("" + cost + '\n');
     }
-    public String name() {return name;}
+    public String name() { return name; }
     @Override
     public String toString() {
         return name + " ($" + price + ", ";

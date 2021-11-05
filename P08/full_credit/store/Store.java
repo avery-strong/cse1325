@@ -18,7 +18,7 @@ public class Store {
     public void save(BufferedWriter out) throws IOException{
         out.write("" + storeName + '\n');
     }
-    String name() {return storeName;}
+    String name() { return storeName; }
     public void addProduct(Product product) {
         this.products.add(product);
     }

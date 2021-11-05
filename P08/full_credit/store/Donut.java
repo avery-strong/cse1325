@@ -20,7 +20,7 @@ public class Donut extends Product {
         this.filling = Filling.valueOf(in.readLine());
         this.sprinkles = Boolean.parseBoolean(in.readLine());
     }
-
+    @Override
     public void save(BufferedWriter out) throws IOException{
         // Buffer
         out.write("" + "donut" + '\n'); 

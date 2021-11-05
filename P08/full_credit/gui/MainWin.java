@@ -54,7 +54,7 @@ public class MainWin extends JFrame {
         store = new Store("JADE");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(500, 200);
-        fileName = new File("untitles.jade");
+        fileName = new File("untitled.jade");
         
         // /////// ////////////////////////////////////////////////////////////////
         // M E N U
@@ -180,7 +180,7 @@ public class MainWin extends JFrame {
     protected void onNewClick(){
         store = new Store("JADE");
         updateDisplay();
-        //msg.setFont(new JLabel().getFont());
+        msg.setFont(new JLabel().getFont());
     }
     protected void onOpenClick(){
         final JFileChooser fc = new JFileChooser(fileName);
@@ -229,7 +229,9 @@ public class MainWin extends JFrame {
                 p.save(bw);
             }
         }catch(Exception e){
-            JOptionPane.showMessageDialog(this, "Unable to open " + fileName + '\n' + e, "Failed", JOptionPane.ERROR_MESSAGE); 
+            JOptionPane.showMessageDialog(this, "Unable to open " 
+                                + fileName 
+                                + '\n' + e, "Failed", JOptionPane.ERROR_MESSAGE); 
         }
     }
     protected void onSaveAsClick(){
@@ -296,8 +298,7 @@ public class MainWin extends JFrame {
             JLabel logo = new JLabel(new ImageIcon(myPicture));
             logo.setAlignmentX(JLabel.CENTER_ALIGNMENT);
             about.add(logo);
-        } catch(IOException e) {
-        }
+        } catch(IOException e) {}
         
         JLabel title = new JLabel("<html>"
           + "<p><font size=+3>Java and Donut Express</font></p>"
