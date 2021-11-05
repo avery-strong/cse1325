@@ -22,7 +22,7 @@ public class Java extends Product {
         while(!strShot.equals("donut") && !strShot.equals("java") && !strShot.equals(null)){
             this.shots.add(Shot.valueOf(strShot));
             // I can see how this would fail
-            in.mark(50);
+            in.mark(100);
             strShot = in.readLine();
         }
 
