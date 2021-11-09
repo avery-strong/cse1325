@@ -51,8 +51,9 @@ import store.Shot;
 
 public class MainWin extends JFrame {
 
-    // ///////////////////////////////////////////////////////////////////
-    // Constructors
+    /*********************************************************
+                            Constructor
+    *********************************************************/
 
     public MainWin(String title) {
         super(title);
@@ -61,10 +62,11 @@ public class MainWin extends JFrame {
         setSize(500, 200);
         fileName = new File("untitled.jade");
         
-        // /////// ////////////////////////////////////////////////////////////////
-        // M E N U
-        // Add a menu bar to the PAGE_START area of the Border Layout
+        /*****************************************************
+                                M E N U
+        *****************************************************/
 
+        // Add a menu bar to the PAGE_START area of the Border Layout
         JMenuBar menubar = new JMenuBar();
         
         JMenu     mFile    = new JMenu("File");
@@ -227,14 +229,19 @@ public class MainWin extends JFrame {
                     buffer = br.readLine();
                 }
 
+                /* 
+                    Buffer == "end products"
+
+                    we do not read again so the Custommer
+                    construtor can the first name
+                */ 
+
                 while(buffer != null){
                     Customer c = new Customer(br);
                     store.addPerson(c);
 
                     buffer = br.readLine();
                 }
-
-                
             }catch (Exception e){
                 JOptionPane.showMessageDialog(this,"Unable to open " + fileName + '\n' + e, 
                     "Failed", JOptionPane.ERROR_MESSAGE);
@@ -276,40 +283,112 @@ public class MainWin extends JFrame {
         }
     }
     protected void onCreateJavaClick() {  // Create a new Java product
-        try {
-            String name = getString("Java name?");
-            double price = getDouble("Price?");
-            double cost = getDouble("Cost?");
-            Darkness darkness = (Darkness) selectFromArray("Darkness?", Darkness.values());
-            Java java = new Java(name, price, cost, darkness);
+        try{
+            JLabel name = new JLabel("<html>Java Name</html>");
+            textName = new JTextField(20);
+    
+            JLabel price = new JLabel("<html>Price</html>");
+            textPrice = new JTextField(20);
+    
+            JLabel cost = new JLabel("<html>Cost</html>");
+            textCost = new JTextField(20);
+    
+            JLabel darknessLabel = new JLabel("<html>Darkness</html>");
+            textDark = new JComboBox<Darkness>(Darkness.values());
+    
+            Object[] objects = {
+                name, textName,
+                price, textPrice,
+                cost, textCost,
+                darknessLabel, textDark,
+            };
+
+            JOptionPane.showConfirmDialog(
+                this,
+                objects,
+                "New Java",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+            String strName = textName.getText();
+            double dubPrice = Double.parseDouble(textPrice.getText()); 
+            double dubCost = Double.parseDouble(textCost.getText());
+            Darkness darkness = Darkness.valueOf(textDark.getSelectedItem().toString());
+
+            if(strName == null || strName.length() == 0)
+                throw new Exception("Name is empty");
+
+            // Create our object
+            Java java = new Java(strName, dubPrice, dubCost, darkness);
             while(true) {
                 Shot shot = (Shot) selectFromArray("Shot?", Shot.values());
                 if(shot.equals(Shot.None)) break;
                 java.addShot(shot);
             }
             store.addProduct(java);
-            //updateDisplay();
-        } catch (CancelDialogException e) { // ignore a Cancel
-        } catch(Exception e) {
-            msg.setText("Failed to create new Java: " + e.getMessage());
+        }catch(Exception e){
+            msg.setText("Failed to create new Customer: " + e);
         }
     }
     
     protected void onCreateDonutClick() {  // Create a new Java product
-        try {
-            String name = getString("Donut name?");
-            double price = getDouble("Price?");
-            double cost = getDouble("Cost?");
-            Frosting frosting = (Frosting) selectFromArray("Select a Frosting", Frosting.values());
-            Filling filling = (Filling) selectFromArray("Select a Filling", Filling.values());
+        try{
+            // Name of Donut       
+            JLabel name = new JLabel("<html>Donut Name</html>");       
+            textName = new JTextField(20); 
+            
+            // Donut Price
+            JLabel price = new JLabel("<html>Price</html>");
+            textPrice = new JTextField(20);
+    
+            // Donut Cost
+            JLabel cost = new JLabel("<html>Cost</html>");
+            textCost = new JTextField(20);
+
+            JLabel frostingLabel = new JLabel("<html>Frosting</html>");
+            textFrost = new JComboBox<Frosting>(Frosting.values());
+
+            JLabel fillingLabel = new JLabel("<html>Filling</html>");
+            textFill = new JComboBox<Filling>(Filling.values());
+
             String[] options = {"No Sprinkles", "Sprinkles"};
-            boolean sprinkles = (JOptionPane.showOptionDialog(this, "Sprinkles?", "", 
-                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
-                null, options, options[0]) == 1);
-            store.addProduct(new Donut(name, price, cost, frosting, filling, sprinkles));
-            //updateDisplay();
-        } catch (CancelDialogException e) { // ignore a Cancel
-        } catch(Exception e) {
+            JLabel sprinklesLabel = new JLabel("<html>Sprinkles</html>");
+            textSprinkles = new JComboBox<String>(options);
+
+            Object[] objects = {
+                name, textName,
+                price, textPrice,
+                cost, textCost,
+                frostingLabel, textFrost,
+                fillingLabel, textFill,
+                sprinklesLabel, textSprinkles,
+            };
+
+            JOptionPane.showConfirmDialog(
+                this,
+                objects,
+                "New Donut",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+            String strName = textName.getText();
+            double dubPrice = Double.parseDouble(textPrice.getText()); 
+            double dubCost = Double.parseDouble(textCost.getText());
+
+            Frosting frosting = Frosting.valueOf(textFrost.getSelectedItem().toString());
+            Filling filling = Filling.valueOf(textFill.getSelectedItem().toString());
+            boolean sprinkles;
+
+            if(textSprinkles.getSelectedItem().toString().equals("No Sprinkles"))
+                sprinkles = false;
+            else
+                sprinkles = true;
+
+            if(strName == null || strName.length() == 0)
+                throw new Exception("Name is empty");
+
+            store.addProduct(new Donut(strName, dubPrice, dubCost, frosting, filling, sprinkles));
+        } catch(Exception e){
             msg.setText("Failed to create new Donut: " + e);
         }
     }
@@ -341,13 +420,10 @@ public class MainWin extends JFrame {
             String strPhone = textPhone.getText(); 
 
             if(strName == null || strName.length() == 0) 
-                    throw new CancelDialogException();
-            if(strPhone == null || strPhone.length() == 0) 
-                    throw new CancelDialogException();
-
+                throw new Exception("Name is empty");
+            
             store.addPerson(new Customer(strName, strPhone));
-        } catch(CancelDialogException e){
-        } catch(Exception e){
+        }catch(Exception e){
             msg.setText("Failed to create new Customer: " + e);
         }
     }
@@ -421,56 +497,6 @@ public class MainWin extends JFrame {
                 Utilities
     *********************************/
 
-    // Thrown if the Cancel button on a dialog is clicked
-    protected class CancelDialogException extends Exception {
-        public CancelDialogException() {
-            super("Dialog canceled");
-        }
-    }
-    private String getString(String prompt) throws CancelDialogException {
-        String newPrompt = prompt;
-        while(true) {
-            try {
-                newPrompt = JOptionPane.showInputDialog(this, newPrompt);
-                if(newPrompt == null || newPrompt.length() == 0) 
-                    throw new CancelDialogException();
-                break;
-            } catch (CancelDialogException e) {
-                throw e;  // Rethrow to signal Cancel was clicked
-            } catch (Exception e) {
-                newPrompt = "ERROR: Invalid string '" + newPrompt + "\n" + prompt;
-            }
-        }
-        return newPrompt;
-    }
-    
-    private double getDouble(String prompt) throws CancelDialogException {
-        String newPrompt = prompt;
-        double result = 0.0;
-        while(true) {
-            try {
-                newPrompt = JOptionPane.showInputDialog(this, newPrompt);
-                if(newPrompt == null) throw new CancelDialogException();
-                result = Double.parseDouble(newPrompt);
-                break;
-            } catch (CancelDialogException e) {
-                throw e;  // Rethrow to signal Cancel was clicked
-            } catch (Exception e) {
-                newPrompt = "ERROR: Invalid double '" + newPrompt + "\n" + prompt;
-            }
-        }
-        return result;
-    }
-    
-    private Object selectFromArray(String prompt, Object[] options) throws CancelDialogException {
-        JComboBox<Object> comboEnum = new JComboBox<>();
-        comboEnum.setModel(new DefaultComboBoxModel<Object>(options));
-        int button = JOptionPane.showConfirmDialog(this, comboEnum, prompt, 
-                JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if(button == JOptionPane.CANCEL_OPTION) throw new CancelDialogException();
-        return comboEnum.getSelectedItem();
-    }
-
     // Called from onNew or onOpen
     private void updateDisplay(int i){
         if(i == 0){
@@ -533,20 +559,23 @@ public class MainWin extends JFrame {
     private JMenuItem mSave;
     private JMenuItem mSaveAs;
 
+    private JComboBox textDark;
+    private JComboBox textFill;
+    private JComboBox textFrost;
+    private JComboBox textSprinkles;
+
     private JTextField textName;
     private JTextField textPhone;
+    private JTextField textPrice;
+    private JTextField textCost;
+
 }
 
 
-
-
 /*
-    To class Mainwin, add Create > Customer and associated toolbar button. 
+    Add toolbar buttons for Create > Customer, View > People, View > Products
 
-    To class Mainwin, add View > Products, View > People, and their respective toolbar 
-    buttons. 
-
-    In their listeners, call a modified updateDisplay (or equivalent) so that 
-    the user can select to either display products or people in the main window.
+    onCreateDonutClick(), onCreateJavaClick(), onCreateCustomer(lick) call updateDisplay()
+    to display either products or customers
 
 */

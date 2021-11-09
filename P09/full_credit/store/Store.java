@@ -16,12 +16,14 @@ public class Store {
 
     public Store(BufferedReader in) throws IOException{
         this.storeName = in.readLine();
+        in.readLine();
         this.products = new ArrayList<>();
         this.people = new ArrayList<>();
     }
 
     public void save(BufferedWriter out) throws IOException{
         out.write("" + storeName + '\n');
+        out.write("" + people.size() + '\n');
     }
 
     String name() { return storeName; }
@@ -85,9 +87,6 @@ public class Store {
     new Customers via Create > Customer and the associated button, to be added via the 
     Store.addPerson method.
 
-    To class Store, add a private ArrayList of type Person and methods 
-    addPerson (analogous to addProduct), 
-    numberOfPeople (analogous to numberOfProducts), 
-    personToString(index) (analogous to toString(index), 
-    and peopleToString (analogous to toString).
+    To method Store.save, add code at the end to write out the number of people. 
+    Then save each person in the people ArrayList.
 */

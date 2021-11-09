@@ -15,7 +15,6 @@ public class Donut extends Product {
     }
     public Donut(BufferedReader in) throws IOException{
         super(in);
-
         this.frosting = Frosting.valueOf(in.readLine());
         this.filling = Filling.valueOf(in.readLine());
         this.sprinkles = Boolean.parseBoolean(in.readLine());

@@ -16,8 +16,8 @@ public class Person{
 	}
 
 	public void save(BufferedWriter out) throws IOException{
-		out.write("" + name + "\n");
-		out.write("" + phone + "\n");
+		out.write("" + name + '\n');
+		out.write("" + phone + '\n');
 	}
 
 	@Override
