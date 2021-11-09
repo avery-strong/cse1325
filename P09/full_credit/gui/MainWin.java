@@ -59,7 +59,7 @@ public class MainWin extends JFrame {
         super(title);
         store = new Store("JADE");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(500, 200);
+        setSize(700, 200);
         fileName = new File("untitled.jade");
         
         /*****************************************************
@@ -147,7 +147,7 @@ public class MainWin extends JFrame {
           bSaveAs.addActionListener(event -> onSaveAsClick());
 
         // Put some distance between our buttons
-        toolbar.add(Box.createHorizontalStrut(25));
+        toolbar.add(Box.createHorizontalStrut(20));
 
         bJava  = new JButton(new ImageIcon("gui/resources/new_java.png"));
           bJava.setActionCommand("Create new Java");
@@ -161,8 +161,29 @@ public class MainWin extends JFrame {
           toolbar.add(bDonut);
           bDonut.addActionListener(event -> onCreateDonutClick());
 
-        // Put some distance between our buttons
-        toolbar.add(Box.createHorizontalStrut(25));
+        bCustomer = new JButton(new ImageIcon("gui/resources/Users-icon.png"));
+          bCustomer.setActionCommand("Create a new Customer");
+          bCustomer.setToolTipText("Create a new customer Selection");
+          toolbar.add(bCustomer);
+          bCustomer.addActionListener(event -> onCreateCustomerClick());
+
+          // Put some distance between our buttons
+        toolbar.add(Box.createHorizontalStrut(20));
+
+        bProduct = new JButton(new ImageIcon("gui/resources/product-icon.png"));
+          bProduct.setActionCommand("View Products");
+          bProduct.setToolTipText("View Products");
+          toolbar.add(bProduct);
+          bProduct.addActionListener(event -> onProductsClick());
+
+        bPeople = new JButton(new ImageIcon("gui/resources/people-icon.png"));
+          bPeople.setActionCommand("View People");
+          bPeople.setToolTipText("View People");
+          toolbar.add(bPeople);
+          bPeople.addActionListener(event -> onPeopleClick());
+
+          // Put some distance between our buttons
+        toolbar.add(Box.createHorizontalStrut(20));
 
         bAbout = new JButton(new ImageIcon("gui/resources/about.png"));
           bAbout.setActionCommand("About JADE Manager");
@@ -295,12 +316,17 @@ public class MainWin extends JFrame {
     
             JLabel darknessLabel = new JLabel("<html>Darkness</html>");
             textDark = new JComboBox<Darkness>(Darkness.values());
+
+            String[] options = {"No", "Yes"};
+            JLabel labelShots = new JLabel("<html>Would you like to add shots</html>");
+            textShots = new JComboBox<String>(options);
     
             Object[] objects = {
                 name, textName,
                 price, textPrice,
                 cost, textCost,
                 darknessLabel, textDark,
+                labelShots, textShots,
             };
 
             JOptionPane.showConfirmDialog(
@@ -310,33 +336,40 @@ public class MainWin extends JFrame {
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
 
-            String strName = textName.getText();
-            double dubPrice = Double.parseDouble(textPrice.getText()); 
-            double dubCost = Double.parseDouble(textCost.getText());
-            Darkness darkness = Darkness.valueOf(textDark.getSelectedItem().toString());
+            String strName = getString(textName);
+            double dubPrice = getDouble(textPrice); 
+            double dubCost = getDouble(textCost);
 
-            if(strName == null || strName.length() == 0)
-                throw new Exception("Name is empty");
+            Darkness darkness = Darkness.valueOf(textDark.getSelectedItem().toString());
+            boolean shots;
 
             // Create our object
             Java java = new Java(strName, dubPrice, dubCost, darkness);
-            while(true) {
+
+            if(textShots.getSelectedItem().toString().equals("No Shots"))
+                shots = false;
+            else
+                shots = true;
+
+            while(shots) {
                 Shot shot = (Shot) selectFromArray("Shot?", Shot.values());
                 if(shot.equals(Shot.None)) break;
                 java.addShot(shot);
             }
+
             store.addProduct(java);
+            updateDisplay(0);
         }catch(Exception e){
-            msg.setText("Failed to create new Customer: " + e);
+            msg.setText("Failed to create new Java: " + e);
         }
     }
     
     protected void onCreateDonutClick() {  // Create a new Java product
         try{
-            // Name of Donut       
+            // Name of Donut      
             JLabel name = new JLabel("<html>Donut Name</html>");       
             textName = new JTextField(20); 
-            
+
             // Donut Price
             JLabel price = new JLabel("<html>Price</html>");
             textPrice = new JTextField(20);
@@ -345,10 +378,10 @@ public class MainWin extends JFrame {
             JLabel cost = new JLabel("<html>Cost</html>");
             textCost = new JTextField(20);
 
-            JLabel frostingLabel = new JLabel("<html>Frosting</html>");
+            JLabel labelFrost = new JLabel("<html>Frosting</html>");
             textFrost = new JComboBox<Frosting>(Frosting.values());
 
-            JLabel fillingLabel = new JLabel("<html>Filling</html>");
+            JLabel labelFill = new JLabel("<html>Filling</html>");
             textFill = new JComboBox<Filling>(Filling.values());
 
             String[] options = {"No Sprinkles", "Sprinkles"};
@@ -359,8 +392,8 @@ public class MainWin extends JFrame {
                 name, textName,
                 price, textPrice,
                 cost, textCost,
-                frostingLabel, textFrost,
-                fillingLabel, textFill,
+                labelFrost, textFrost,
+                labelFill, textFill,
                 sprinklesLabel, textSprinkles,
             };
 
@@ -371,9 +404,9 @@ public class MainWin extends JFrame {
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
 
-            String strName = textName.getText();
-            double dubPrice = Double.parseDouble(textPrice.getText()); 
-            double dubCost = Double.parseDouble(textCost.getText());
+            String strName = getString(textName);
+            double dubPrice = getDouble(textPrice); 
+            double dubCost = getDouble(textCost);
 
             Frosting frosting = Frosting.valueOf(textFrost.getSelectedItem().toString());
             Filling filling = Filling.valueOf(textFill.getSelectedItem().toString());
@@ -381,16 +414,13 @@ public class MainWin extends JFrame {
 
             if(textSprinkles.getSelectedItem().toString().equals("No Sprinkles"))
                 sprinkles = false;
-            else
-                sprinkles = true;
-
-            if(strName == null || strName.length() == 0)
-                throw new Exception("Name is empty");
+            else sprinkles = true;
 
             store.addProduct(new Donut(strName, dubPrice, dubCost, frosting, filling, sprinkles));
-        } catch(Exception e){
+            updateDisplay(0);
+        }catch(Exception e){
             msg.setText("Failed to create new Donut: " + e);
-        }
+        }  
     }
 
     protected void onCreateCustomerClick(){
@@ -398,7 +428,7 @@ public class MainWin extends JFrame {
             // Name of Customer       
             JLabel name = new JLabel("<html>Name</html>");       
             textName = new JTextField(20); 
-        
+
             // Customer Phone number
             JLabel phone = new JLabel("<html>Phone</html>");
             textPhone = new JTextField(20);
@@ -416,18 +446,48 @@ public class MainWin extends JFrame {
                 JOptionPane.QUESTION_MESSAGE
             );
 
-            String strName = textName.getText();
-            String strPhone = textPhone.getText(); 
-
-            if(strName == null || strName.length() == 0) 
-                throw new Exception("Name is empty");
+            String strName = getString(textName);
+            String strPhone = getString(textPhone); 
             
             store.addPerson(new Customer(strName, strPhone));
+            updateDisplay(1);
         }catch(Exception e){
             msg.setText("Failed to create new Customer: " + e);
         }
     }
+
+    private Object selectFromArray(String prompt, Object[] options){
+        JComboBox<Object> comboEnum = new JComboBox<>();
+        comboEnum.setModel(new DefaultComboBoxModel<Object>(options));
+        int button = JOptionPane.showConfirmDialog(this, comboEnum, prompt, 
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if(button == JOptionPane.CANCEL_OPTION);
+        return comboEnum.getSelectedItem();
+    } 
+
+    protected String getString(JTextField prompt) throws Exception {
+        String newPrompt;
+        
+        newPrompt = prompt.getText();
+
+        if(newPrompt == null || newPrompt.length() == 0) 
+            throw new Exception("Empty String");
             
+        return newPrompt;
+    } 
+
+    protected double getDouble(JTextField prompt) throws Exception {
+        String newPrompt = prompt.getText().toString();
+        double result = 0.0;
+       
+        if(newPrompt == null ) 
+            throw new Exception("Invalid Double");
+
+        result = Double.parseDouble(prompt.getText()); 
+        
+        return result;
+    } 
+
     protected void onAboutClick() {                 // Display About dialog
         JDialog about = new JDialog();
         about.getContentPane().setLayout(new BoxLayout(about.getContentPane(), BoxLayout.PAGE_AXIS));
@@ -472,8 +532,14 @@ public class MainWin extends JFrame {
           +"<p><font size=-2>https://iconarchive.com/show/pretty-office-9-icons-by-custom-icon-design/open-file-icon.html</p>"
           + "<p>Save Icon by Custom Icon Design, licensed under Free for non-commercial use.</p>"
           +"<p><font size=-2>https://iconarchive.com/show/pretty-office-7-icons-by-custom-icon-design/Save-icon.html</p>"
-          + "<p>Icon Quality Png File Png File Png File Png File transparent background by Ahkâm, licensed under Personal Use Only</p>"
+          +"<p>Icon Quality Png File Png File Png File Png File transparent background by Ahkâm, licensed under Personal Use Only</p>"
           +"<p><font size=-2>https://www.freeiconspng.com/img/2488</p>"
+          +"<p>Users Icon by iynque, licensed under CC Attribution-Noncommercial-No Derivate 4.0</p>"
+          +"<p><font size=-2>https://iconarchive.com/show/ios7-style-icons-by-iynque/Users-icon.html</p>"
+          +"<p>Product Icon by Custom Icon Design, licensed under Free for non-commercial use</p>"
+          +"<p><font size=-2>https://iconarchive.com/show/flatastic-2-icons-by-custom-icon-design/product-icon.html</p>"
+          +"<p>People Icon by GraphicLoads, licensed under Freeware</p>"
+          +"<p>https://iconarchive.com/show/100-flat-2-icons-by-graphicloads/people-icon.html</p>"
           + "<br/>"
           + "</html>");
         artists.setAlignmentX(JLabel.CENTER_ALIGNMENT);
@@ -542,6 +608,8 @@ public class MainWin extends JFrame {
     private JButton bJava;                  
     private JButton bNew;
     private JButton bOpen;
+    private JButton bProduct;
+    private JButton bPeople;
     private JButton bSave;
     private JButton bSaveAs;
     
@@ -562,6 +630,7 @@ public class MainWin extends JFrame {
     private JComboBox textDark;
     private JComboBox textFill;
     private JComboBox textFrost;
+    private JComboBox textShots;
     private JComboBox textSprinkles;
 
     private JTextField textName;
@@ -575,7 +644,6 @@ public class MainWin extends JFrame {
 /*
     Add toolbar buttons for Create > Customer, View > People, View > Products
 
-    onCreateDonutClick(), onCreateJavaClick(), onCreateCustomer(lick) call updateDisplay()
-    to display either products or customers
+    
 
 */
