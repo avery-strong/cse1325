@@ -12,8 +12,10 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JSpinner;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
@@ -28,13 +30,15 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import java.awt.image.BufferedImage;
 
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import store.Store;
 import store.Product;
@@ -61,7 +65,7 @@ public class MainWin extends JFrame {
         super(title);
         store = new Store("JADE");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(700, 200);
+        setSize(1000, 600);
         fileName = new File("untitled.jade");
         
         /************************************************
@@ -78,13 +82,15 @@ public class MainWin extends JFrame {
                   mSaveAs  = new JMenuItem("Save As");
                   mQuit    = new JMenuItem("Quit");
         JMenu     mCreate  = new JMenu("Create");
-                  mCustomer = new JMenuItem("Customer");
                   mJava    = new JMenuItem("Java");
                   mDonut   = new JMenuItem("Donut");
+                  mCustomer = new JMenuItem("Customer");
+                  mOrder   = new JMenuItem("Order");
                   mServer  = new JMenuItem("Server");
         JMenu     mView    = new JMenu("View");
                   mProducts = new JMenuItem("Products");
                   mPeople  = new JMenuItem("People");
+                  mOrders   = new JMenuItem("Orders");
         JMenu     mHelp    = new JMenu("Help");
                   mAbout   = new JMenuItem("About");
         
@@ -93,12 +99,17 @@ public class MainWin extends JFrame {
         mSave.addActionListener(event -> onSaveClick());          // File
         mSaveAs.addActionListener(event -> onSaveAsClick());      // File
         mQuit .addActionListener(event -> onQuitClick());         // File
-        mJava .addActionListener(event -> onCreateJavaClick());   // Create
+
         mDonut.addActionListener(event -> onCreateDonutClick());  // Create
-        mServer.addActionListener(event -> onCreateServerClick());// Create
+        mJava .addActionListener(event -> onCreateJavaClick());   // Create
         mCustomer.addActionListener(event -> onCreateCustomerClick());// Create
+        mServer.addActionListener(event -> onCreateServerClick());// Create
+        mOrder.addActionListener(event -> onCreateOrderClick());  // Create
+        
         mProducts.addActionListener(event -> onProductsClick());  // View
         mPeople.addActionListener(event -> onPeopleClick());      // View
+        mOrders.addActionListener(event -> onOrdersClick());        // View
+
         mAbout.addActionListener(event -> onAboutClick());        // About
 
         mFile  .add(mQuit);
@@ -110,8 +121,10 @@ public class MainWin extends JFrame {
         mCreate.add(mDonut);
         mCreate.add(mCustomer);
         mCreate.add(mServer);
+        mCreate.add(mOrder);
         mView  .add(mProducts);
         mView  .add(mPeople);
+        mView  .add(mOrders);
         mHelp  .add(mAbout);
         
         menubar.add(mFile);
@@ -263,10 +276,9 @@ public class MainWin extends JFrame {
                     }
 
                     buffer = br.readLine();
-                }
+                }// buffer  == "end products"
 
-                // Buffer == "end products"
-
+                buffer = br.readLine();
                 while(buffer != null){
                     if(buffer.equals("customer")){
                         Customer c = new Customer(br);
@@ -479,6 +491,80 @@ public class MainWin extends JFrame {
         }
     }
 
+    protected void onCreateOrderClick(){
+        /****************
+            People
+        *****************/
+
+        JLabel customers = new JLabel("<html>Customers</html>");
+        JLabel servers   = new JLabel("<html>Servers</html>");
+        
+        ArrayList<Person> serverList = new ArrayList<>();
+        ArrayList<Person> customerList = new ArrayList<>();
+
+        for(int i = 0; i < store.numberOfPeople(); i++){
+            if(store.getPerson(i) instanceof Customer)
+                customerList.add(store.getPerson(i));
+            else
+                serverList.add(store.getPerson(i));
+        }
+
+        JComboBox textCustomer = new JComboBox<Object>(customerList.toArray());
+        JComboBox textServer = new JComboBox<Object>(serverList.toArray());
+        
+        Object[] peopleObjects = {
+            customers, textCustomer,
+            servers, textServer ,  
+        };
+
+        JOptionPane.showConfirmDialog(
+            this,
+            peopleObjects,
+            "New Order",
+            JOptionPane.OK_CANCEL_OPTION,
+            JOptionPane.QUESTION_MESSAGE);
+
+        Customer c = (Customer)textCustomer.getSelectedItem();
+        Server s = (Server)textServer.getSelectedItem();
+
+        Order order = new Order(c, s);
+
+        /****************
+            Products
+        *****************/
+        int spin = 1;
+        while(spin != 0){
+            JPanel panel = new JPanel(new BorderLayout());
+            JSpinner spinner = new JSpinner();
+            bAdd = new JButton("Add");
+    
+            JLabel products = new JLabel("<html>" + store.ordersToString() + "</html>");
+            Object[] productOptions = store.getProducts();  
+            JComboBox textProducts = new JComboBox<Object>(productOptions);
+    
+            panel.add(products, BorderLayout.NORTH);
+            panel.add(spinner, BorderLayout.CENTER);
+            panel.add(textProducts, BorderLayout.EAST);
+    
+            JOptionPane.showConfirmDialog(
+                this,
+                panel,
+                "Product",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+    
+            Product p = (Product)textProducts.getSelectedItem();
+            spin = (int)spinner.getValue();
+
+            if(spin > 0)
+                order.addProduct(spin, p);
+        }
+
+        store.addOrders(order);
+
+        updateDisplay(2);
+    }
+
     protected void onCreateServerClick(){
         try{
             // Server name
@@ -597,6 +683,8 @@ public class MainWin extends JFrame {
 
     protected void onPeopleClick(){ updateDisplay(1); } 
 
+    protected void onOrdersClick(){ updateDisplay(2); }
+
     /************************************************ 
                     Utilities ActionListeners
     ************************************************/
@@ -611,8 +699,16 @@ public class MainWin extends JFrame {
                          .replaceAll("\n", "<br/>")
                          + "</html>");
         }
-        else{
+        if(i == 1){
             data.setText("<html>" + store.peopleToString()
+                         .replaceAll("\t", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
+                         .replaceAll("<","&lt;")
+                         .replaceAll(">", "&gt;")
+                         .replaceAll("\n", "<br/>")
+                         + "</html>");
+        }
+        if(i == 2){
+            data.setText("<html>" + store.ordersToString()
                          .replaceAll("\t", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
                          .replaceAll("<","&lt;")
                          .replaceAll(">", "&gt;")
@@ -653,6 +749,8 @@ public class MainWin extends JFrame {
         return result;
     }
 
+    
+
     /************************************************ 
                         Main
     ************************************************/
@@ -675,6 +773,7 @@ public class MainWin extends JFrame {
     
     // buttons
     private JButton bAbout;
+    private JButton bAdd;
     private JButton bCustomer;
     private JButton bDonut;
     private JButton bJava;                  
@@ -693,6 +792,8 @@ public class MainWin extends JFrame {
     private JMenuItem mJava;                  
     private JMenuItem mNew;
     private JMenuItem mOpen;
+    private JMenuItem mOrder;
+    private JMenuItem mOrders;
     private JMenuItem mPeople;
     private JMenuItem mProducts;
     private JMenuItem mQuit;

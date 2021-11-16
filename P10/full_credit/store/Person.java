@@ -22,9 +22,7 @@ public class Person{
 
 	@Override
 	public String toString(){
-		return name 
-				+ "\n" 
-				+ "\t" + "Phone: " + phone; 
+		return name + " (Phone: " + phone + ")"; 
 	}
 
 	protected String name;

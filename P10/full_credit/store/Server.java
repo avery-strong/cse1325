@@ -25,11 +25,7 @@ public class Server extends Person{
 
 	@Override
 	public String toString(){ 
-		return name 
-				+ "\n" 
-				+ "\t" + "Phone: " + phone 
-				+ "\n" 
-				+ "\t" + "SSN: " + ssn + ")"; 
+		return name + " (Phone: " + phone + ", SSN: " + ssn + ")"; 
 	}
 
 	// Attributes

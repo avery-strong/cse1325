@@ -15,10 +15,11 @@ public class Java extends Product {
 
     public Java(BufferedReader in) throws IOException{
         super(in);
+        this.darkness = Darkness.valueOf(in.readLine());
+
         this.shots = new ArrayList<>();
         String strShot;
 
-        this.darkness = Darkness.valueOf(in.readLine());
         strShot = in.readLine();
         while(!strShot.equals("end java")){
             this.shots.add(Shot.valueOf(strShot));
@@ -36,9 +37,12 @@ public class Java extends Product {
         out.write("" + cost + '\n');
         // Java
         out.write("" + darkness + '\n');
+
         for(Shot s : shots){
             out.write("" + s + '\n');
         }
+        
+        out.write("" + "end java" + '\n');
     }
 
     public void addShot(Shot shot){ this.shots.add(shot); }

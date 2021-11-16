@@ -9,6 +9,7 @@ import java.io.IOException;
 public class Store {
     public Store(String storeName) {
         this.storeName = storeName;
+        this.orders = new ArrayList<>();
         this.products = new ArrayList<>();
         this.people = new ArrayList<>();
 
@@ -16,7 +17,8 @@ public class Store {
 
     public Store(BufferedReader in) throws IOException{
         this.storeName = in.readLine();
-        in.readLine();
+        in.readLine(); 
+        this.orders = new ArrayList<>();
         this.products = new ArrayList<>();
         this.people = new ArrayList<>();
     }
@@ -33,6 +35,15 @@ public class Store {
     ****************************************/
 
     public Product getProduct(int i){ return products.get(i); }
+
+    public Object[] getProducts(){
+        Object[] options = new Object[products.size()];
+
+        for(int i = 0; i < products.size(); i++){
+            options[i] = products.get(i);
+        }
+        return options;
+    }
 
     public void addProduct(Product product){ this.products.add(product); }
 
@@ -58,6 +69,15 @@ public class Store {
     public void addPerson(Person person){ this.people.add(person); }
 
     public Person getPerson(int i){ return people.get(i); }
+
+    public Object[] getPeople(){
+        Object[] options = new Object[people.size()];
+
+        for(int i = 0; i < people.size(); i++){
+            options[i] = people.get(i);
+        }
+        return options;
+    }
 
     public int numberOfPeople(){ return people.size(); }
 
@@ -86,7 +106,11 @@ public class Store {
     //public Orders[] getOrders(){ return Order[] }
 
     public String ordersToString(){
-        return "";
+        String result = "Current Orders " + '\n' + '\n';
+        for(int i = 0; i < orders.size(); i++){
+            result += orders.get(i);
+        }
+        return result;
     }
 
     // Attributes
