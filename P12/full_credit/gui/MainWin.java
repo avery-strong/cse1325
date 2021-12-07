@@ -70,7 +70,7 @@ public class MainWin extends JFrame {
         super(title);
         store = new Store("JADE");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1000, 600);
+        setSize(1120, 600);
         fileName = new File("untitled.jade");
         
         /************************************************
@@ -263,7 +263,45 @@ public class MainWin extends JFrame {
           toolbar.add(bOrders);
           bOrders.addActionListener(event -> onOrdersClick());
 
-          // Put some distance between our buttons
+        // Put some distance between our buttons
+        toolbar.add(Box.createHorizontalStrut(20));
+
+        /***********************************************
+                        Edit Buttons   
+        ***********************************************/
+
+        bEditJava = new JButton(new ImageIcon("gui/resources/Food-Coffee-To-Go-icon.png"));
+         bEditJava.setActionCommand("Edit Java");
+         bEditJava.setToolTipText("Edit Java");
+         toolbar.add(bEditJava);
+         bEditJava.addActionListener(event -> onEditJavaClick());
+
+        bEditDonut = new JButton(new ImageIcon("gui/resources/Food-Doughnut-icon.png"));
+         bEditDonut.setActionCommand("Edit Donut");
+         bEditDonut.setToolTipText("Edit Donut");
+         toolbar.add(bEditDonut);
+         bEditDonut.addActionListener(event -> onEditDonutClick());
+
+        // Put some distance between our buttons
+        toolbar.add(Box.createHorizontalStrut(20));
+
+        /***********************************************
+                        Report Buttons   
+        ***********************************************/
+
+        bProfitLoss = new JButton(new ImageIcon("gui/resources/Sales-report-icon.png"));
+         bProfitLoss.setActionCommand("Profit & Loss Report");
+         bProfitLoss.setToolTipText("Profit & Loss Report");
+         toolbar.add(bProfitLoss);
+         bProfitLoss.addActionListener(event -> onProfitLossClick());
+
+        bServerReport = new JButton(new ImageIcon("gui/resources/Distributor-report-icon.png"));
+         bServerReport.setActionCommand("Server Report");
+         bServerReport.setToolTipText("Server Report");
+         toolbar.add(bServerReport);
+         bServerReport.addActionListener(event -> onServerReportClick());
+
+        // Put some distance between our buttons
         toolbar.add(Box.createHorizontalStrut(20));
 
         /***********************************************
@@ -1138,6 +1176,16 @@ public class MainWin extends JFrame {
           +"<p><font size=-2>https://thenounproject.com/term/coffee-orders/940871/</font></p>"
           +"<p>order-icon-17 Icon by icon-library.com, licensed under Free Icons Library</p>"
           +"<p><font size=-2>https://icon-library.com/icon/order-icon-17.html</font></p>"
+          +"<p>Food-Coffee-To-Go-icon by Icons8, licensed under Linkware</p>"
+          +"<p><font size=-2>https://iconarchive.com/show/ios7-icons-by-icons8/Food-Coffee-To-Go-icon.html</font></p>"
+          +"<p><font size=-2>https://icons8.com/</font></p>"
+          +"<p>Food-Doughnut-icon by Icons8, licensed under Linkware</p>"
+          +"<p><font size=-2>https://iconarchive.com/show/ios7-icons-by-icons8/Food-Doughnut-icon.html</font></p>"
+          +"<p><font size=-2>https://icons8.com/</font></p>"
+          +"<p>Sales-report-icon by Custom Icon Design (Available for custom work), licensed under Free for non-commercial use.</p>"
+          +"<p><font size=-2>https://iconarchive.com/show/flatastic-5-icons-by-custom-icon-design/Sales-report-icon.html</font></p>"
+          +"<p>Distributor-report-icon by Custom Icon Design (Available for custom work), licensed under Free for non-commercial use.</p>"
+          +"<p><font size=-2>https://iconarchive.com/show/flatastic-5-icons-by-custom-icon-design/Distributor-report-icon.html</font></p>"
           + "<br/>"
           + "</html>");
         artists.setAlignmentX(JLabel.CENTER_ALIGNMENT);
@@ -1252,16 +1300,20 @@ public class MainWin extends JFrame {
     private JButton bAdd;
     private JButton bCustomer;
     private JButton bDonut;
+    private JButton bEditJava;
+    private JButton bEditDonut;
     private JButton bJava;                  
     private JButton bNew;
     private JButton bOpen;
     private JButton bOrder;
     private JButton bOrders;
-    private JButton bProduct;
     private JButton bPeople;
+    private JButton bProduct;
+    private JButton bProfitLoss;
     private JButton bSave;
     private JButton bSaveAs;
     private JButton bServer;
+    private JButton bServerReport;
 
     // Menu
     private JMenuItem mAbout;
