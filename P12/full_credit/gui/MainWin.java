@@ -717,9 +717,11 @@ public class MainWin extends JFrame {
                          + "</html>");
             });
 
+            JScrollPane scrollPane = new JScrollPane(products);
+
             panel = new JPanel(new BorderLayout());
             north = new JPanel(new BorderLayout());
-            north.add(products, BorderLayout.NORTH);
+            north.add(scrollPane, BorderLayout.NORTH);
 
             panel.add(textProducts, BorderLayout.EAST);
             panel.add(spinner, BorderLayout.CENTER);
@@ -1145,6 +1147,8 @@ public class MainWin extends JFrame {
           + "</html>");
         copyright.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         about.add(copyright);
+
+        
                     
        JLabel artists = new JLabel("<html>"
           + "<p>JADE Logo by SaxDeux, licensed under CC BY-SA 3.0</p>"
@@ -1188,8 +1192,9 @@ public class MainWin extends JFrame {
           +"<p><font size=-2>https://iconarchive.com/show/flatastic-5-icons-by-custom-icon-design/Distributor-report-icon.html</font></p>"
           + "<br/>"
           + "</html>");
-        artists.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-        about.add(artists);
+        //artists.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        JScrollPane scrollPane = new JScrollPane(artists);
+        about.add(scrollPane);
 
         JButton ok = new JButton("OK");
         ok.setAlignmentX(JButton.CENTER_ALIGNMENT);

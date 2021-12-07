@@ -1,13 +1,13 @@
 JADE|4
-java|blond roast|1.5|0.15|Blond
-java|extreme bean|6.99|1.5|Extreme|Milk|Sugar|Sugar|Hazelnut
-donut|simpsons|2.99|0.65|Strawberry|Unfilled|true
-donut|Fruity pebbles|3.99|0.85|Vanilla|Unfilled|true
+java|Blond Roast|1.5|0.15|Blond
+java|Extreme Bean|6.99|1.5|Extreme|Milk|Sugar|Sugar|Hazelnut
+donut|Simpsons|2.99|0.65|Strawberry|Unfilled|true
+donut|Fruity Pebbles|3.99|0.85|Vanilla|Unfilled|true
 customer|John Doe|555-555-5555
 customer|Mary Jane|555-555-5555
 server|Avery Strong|903-718-1944|555-55-5555
-server|Emily Berkes|210-834-8191|555-55-5555
-order|0|3|John Doe|Avery Strong|1|extreme bean|2|simpsons
-order|1|3|Mary Jane|Emily Berkes|3|Fruity pebbles|1|blond roast
-order|2|3|John Doe|Avery Strong|7|Fruity pebbles|4|extreme bean
+server|Emily Berkes|555-555-5555|555-55-5555
+order|0|3|John Doe|Avery Strong|1|Extreme Bean|2|Fruity Pebbles
+order|1|3|Mary Jane|Avery Strong|2|Simpsons|1|Blond Roast
+order|2|3|Mary Jane|Emily Berkes|2|Extreme Bean|1|Simpsons|1|Fruity Pebbles
 end file|
