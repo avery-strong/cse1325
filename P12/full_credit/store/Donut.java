@@ -39,6 +39,11 @@ public class Donut extends Product {
                      + '|' + filling 
                      + '|' + sprinkles); 
     }
+
+    public Frosting getFrosting(){ return frosting; } 
+    public Filling getFilling(){ return filling; }
+    public boolean getSprinkles(){ return sprinkles; }
+
     @Override
     public String toString() {
          return name + " (" 

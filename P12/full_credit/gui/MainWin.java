@@ -1,34 +1,37 @@
  package gui;
 
-import javax.swing.JFrame;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-
-import javax.swing.JToolBar;
-import javax.swing.JButton;
-
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-import javax.swing.JLabel;
-import javax.swing.JComboBox;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JSpinner;
-
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.BorderLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.Font;
+import java.awt.image.BufferedImage;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import java.awt.BorderLayout;
-import java.awt.Font;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.ImageIcon;
+import javax.swing.UIManager;
+
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.JToolBar;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import java.awt.image.BufferedImage;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -39,22 +42,23 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.StringTokenizer;
 
-import store.Store;
-import store.Product;
-import store.Donut;
-import store.Java;
-import store.Order;
+import store.Store;                     // Class
+import store.Product;                   // Class
+import store.Donut;                     // Class
+import store.Java;                      // Class
+import store.Order;                     // Class
 
-import store.Customer;
-import store.Person;
-import store.Server;
+import store.Customer;                  // Class
+import store.Person;                    // Class
+import store.Server;                    // Class
 
-import store.Frosting;
-import store.Filling;
-import store.Darkness;
-import store.Shot;
+import store.Frosting;                  // Enum class
+import store.Filling;                   // Enum class
+import store.Darkness;                  // Enum class
+import store.Shot;                      // Enum class
 
 public class MainWin extends JFrame {
 
@@ -76,61 +80,88 @@ public class MainWin extends JFrame {
         // Add a menu bar to the PAGE_START area of the Border Layout
         JMenuBar menubar = new JMenuBar();
         
-        JMenu     mFile    = new JMenu("File");
-                  mNew     = new JMenuItem("New");
-                  mOpen    = new JMenuItem("Open");
-                  mSave    = new JMenuItem("Save");
-                  mSaveAs  = new JMenuItem("Save As");
-                  mQuit    = new JMenuItem("Quit");
-        JMenu     mCreate  = new JMenu("Create");
-                  mJava    = new JMenuItem("Java");
-                  mDonut   = new JMenuItem("Donut");
-                  mCustomer = new JMenuItem("Customer");
-                  mOrder   = new JMenuItem("Order");
-                  mServer  = new JMenuItem("Server");
-        JMenu     mView    = new JMenu("View");
-                  mProducts = new JMenuItem("Products");
-                  mPeople  = new JMenuItem("People");
-                  mOrders   = new JMenuItem("Orders");
-        JMenu     mHelp    = new JMenu("Help");
-                  mAbout   = new JMenuItem("About");
+        JMenu     mFile       = new JMenu("File");
+                  mNew        = new JMenuItem("New");
+                  mOpen       = new JMenuItem("Open");
+                  mSave       = new JMenuItem("Save");
+                  mSaveAs     = new JMenuItem("Save As");
+                  mQuit       = new JMenuItem("Quit");
+
+        JMenu     mCreate     = new JMenu("Create");
+                  mJava       = new JMenuItem("Java");
+                  mDonut      = new JMenuItem("Donut");
+                  mCustomer   = new JMenuItem("Customer");
+                  mOrder      = new JMenuItem("Order");
+                  mServer     = new JMenuItem("Server");
+
+        JMenu     mView       = new JMenu("View");
+                  mProducts   = new JMenuItem("Products");
+                  mPeople     = new JMenuItem("People");
+                  mOrders     = new JMenuItem("Orders");
+
+        JMenu     mEdit       = new JMenu("Edit");
+                  mEditDonut  = new JMenuItem("Donut");
+                  mEditJava   = new JMenuItem("Java");
+
+        JMenu     mReports    = new JMenu("Reports");
+                  mProfitLoss = new JMenuItem("Profits & Loss");
+                  mServerReport     = new JMenuItem("Server");
+
+        JMenu     mHelp       = new JMenu("Help");
+                  mAbout      = new JMenuItem("About");
         
-        mNew  .addActionListener(event -> onNewClick());          // File
-        mOpen .addActionListener(event -> onOpenClick());         // File
-        mSave.addActionListener(event -> onSaveClick());          // File
-        mSaveAs.addActionListener(event -> onSaveAsClick());      // File
-        mQuit .addActionListener(event -> onQuitClick());         // File
+        mNew.addActionListener(event -> onNewClick());                  // File
+        mOpen.addActionListener(event -> onOpenClick());                // File
+        mSave.addActionListener(event -> onSaveClick());                // File
+        mSaveAs.addActionListener(event -> onSaveAsClick());            // File
+        mQuit.addActionListener(event -> onQuitClick());                // File
 
-        mDonut.addActionListener(event -> onCreateDonutClick());  // Create
-        mJava .addActionListener(event -> onCreateJavaClick());   // Create
-        mCustomer.addActionListener(event -> onCreateCustomerClick());// Create
-        mServer.addActionListener(event -> onCreateServerClick());// Create
-        mOrder.addActionListener(event -> onCreateOrderClick());  // Create
+        mDonut.addActionListener(event -> onCreateDonutClick());        // Create
+        mJava.addActionListener(event -> onCreateJavaClick());          // Create
+        mCustomer.addActionListener(event -> onCreateCustomerClick());  // Create
+        mServer.addActionListener(event -> onCreateServerClick());      // Create
+        mOrder.addActionListener(event -> onCreateOrderClick());        // Create
         
-        mProducts.addActionListener(event -> onProductsClick());  // View
-        mPeople.addActionListener(event -> onPeopleClick());      // View
-        mOrders.addActionListener(event -> onOrdersClick());      // View
+        mProducts.addActionListener(event -> onProductsClick());        // View
+        mPeople.addActionListener(event -> onPeopleClick());            // View
+        mOrders.addActionListener(event -> onOrdersClick());            // View
 
-        mAbout.addActionListener(event -> onAboutClick());        // About
+        mEditDonut.addActionListener(event -> onEditDonutClick());      // Edit
+        mEditJava.addActionListener(event -> onEditJavaClick());        // Edit
 
-        mFile  .add(mQuit);
-        mFile  .add(mNew);
-        mFile  .add(mOpen);
-        mFile  .add(mSave);
-        mFile  .add(mSaveAs);
-        mCreate.add(mJava);
+        mProfitLoss.addActionListener(event -> onProfitLossClick());    // Reports
+        mServerReport.addActionListener(event -> onServerReportClick());// Reports
+        mAbout.addActionListener(event -> onAboutClick());              // Help
+
+        mFile.add(mNew);
+        mFile.add(mOpen);
+        mFile.add(mSave);
+        mFile.add(mSaveAs);
+        mFile.add(mQuit);
+
         mCreate.add(mDonut);
+        mCreate.add(mJava);
         mCreate.add(mCustomer);
         mCreate.add(mServer);
         mCreate.add(mOrder);
-        mView  .add(mProducts);
-        mView  .add(mPeople);
-        mView  .add(mOrders);
-        mHelp  .add(mAbout);
+
+        mView.add(mOrders);
+        mView.add(mPeople);
+        mView.add(mProducts);
+
+        mEdit.add(mEditDonut);
+        mEdit.add(mEditJava);
+
+        mReports.add(mProfitLoss);
+        mReports.add(mServerReport);
+
+        mHelp.add(mAbout);
         
         menubar.add(mFile);
         menubar.add(mCreate);
         menubar.add(mView);
+        menubar.add(mEdit);
+        menubar.add(mReports);
         menubar.add(mHelp);
         
         setJMenuBar(menubar);
@@ -397,50 +428,64 @@ public class MainWin extends JFrame {
 
     protected void onCreateJavaClick() {  // Create a new Java product
         try{
-            JLabel name = new JLabel("<html>Java Name</html>");
-            textName = new JTextField(20);
-    
-            JLabel price = new JLabel("<html>Price</html>");
+            JPanel panel       = new JPanel(new BorderLayout());
+            JPanel north       = new JPanel(new BorderLayout());
+            JPanel northCombo  = new JPanel(new BorderLayout());
+            JPanel center      = new JPanel(new BorderLayout());
+            JPanel centerCombo = new JPanel(new BorderLayout());
+            JPanel south       = new JPanel(new BorderLayout());
+            bAdd = new JButton("Save");
+            
+            textName  = new JTextField(20);
             textPrice = new JTextField(20);
-    
-            JLabel cost = new JLabel("<html>Cost</html>");
-            textCost = new JTextField(20);
-    
-            JLabel darknessLabel = new JLabel("<html>Darkness</html>");
-            textDark = new JComboBox<Darkness>(Darkness.values());
+            textCost  = new JTextField(20);
+            textDark  = new JComboBox<Darkness>(Darkness.values());
 
             String[] options = {"No", "Yes"};
-            JLabel labelShots = new JLabel("<html>Would you like to add shots</html>");
             textShots = new JComboBox<String>(options);
-    
-            Object[] objects = {
-                name, textName,
-                price, textPrice,
-                cost, textCost,
-                darknessLabel, textDark,
-                labelShots, textShots,
-            };
 
-            JOptionPane.showConfirmDialog(
+
+            north.add(new JLabel("<html>Java Name</html>"), BorderLayout.NORTH);
+            north.add(textName, BorderLayout.CENTER);
+            north.add(new JLabel("<html>Price</html>"), BorderLayout.SOUTH);
+            
+            center.add(textPrice, BorderLayout.NORTH);
+            center.add(new JLabel("<html>Cost</html>"), BorderLayout.CENTER);
+            center.add(textCost, BorderLayout.SOUTH);
+
+            northCombo.add(new JLabel("<html>Darkness</html>"), BorderLayout.NORTH);
+            northCombo.add(textDark, BorderLayout.CENTER);
+
+            centerCombo.add(new JLabel("<html>Would you like to add shots</html>"), BorderLayout.NORTH);
+            centerCombo.add(textShots, BorderLayout.CENTER);
+
+            south.add(northCombo, BorderLayout.NORTH);
+            south.add(centerCombo, BorderLayout.CENTER);
+            //bAdd.addActionListener(event -> store.addProduct(java));
+            //south.add(bAdd, BorderLayout.SOUTH);
+            
+            panel.add(north, BorderLayout.NORTH);
+            panel.add(center, BorderLayout.CENTER);
+            panel.add(south, BorderLayout.SOUTH);
+
+            int result = JOptionPane.showConfirmDialog(
                 this,
-                objects,
+                panel,
                 "New Java",
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
 
-            String strName = getString(textName);
-            double dubPrice = getDouble(textPrice); 
-            double dubCost = getDouble(textCost);
+            if(result != JOptionPane.OK_OPTION) return;
 
-            Darkness darkness = Darkness.valueOf(textDark.getSelectedItem().toString());
-            boolean shots;
+            boolean shots = false;
 
             // Create our object
-            Java java = new Java(strName, dubPrice, dubCost, darkness);
+            Java java = new Java(getString(textName), 
+                                 getDouble(textPrice), 
+                                 getDouble(textCost), 
+                                 Darkness.valueOf(textDark.getSelectedItem().toString()));
 
-            if(textShots.getSelectedItem().toString().equals("No Shots"))
-                shots = false;
-            else
+            if(!textShots.getSelectedItem().toString().equals("No"))
                 shots = true;
 
             while(shots) {
@@ -450,6 +495,7 @@ public class MainWin extends JFrame {
             }
 
             store.addProduct(java);
+
             updateDisplay(0);
         }catch(Exception e){
             msg.setText("Failed to create new Java: " + e);
@@ -458,57 +504,68 @@ public class MainWin extends JFrame {
     
     protected void onCreateDonutClick() {  // Create a new Java product
         try{
-            // Name of Donut      
-            JLabel name = new JLabel("<html>Donut Name</html>");       
-            textName = new JTextField(20); 
+            JPanel panel = new JPanel(new BorderLayout());
+            JPanel north = new JPanel(new BorderLayout());
+            JPanel northCombo = new JPanel(new BorderLayout());
+            JPanel center = new JPanel(new BorderLayout());
+            JPanel centerCombo = new JPanel(new BorderLayout());
+            JPanel south = new JPanel(new BorderLayout());
+            JPanel southCombo = new JPanel(new BorderLayout());
 
-            // Donut Price
-            JLabel price = new JLabel("<html>Price</html>");
+            textName = new JTextField(20);
             textPrice = new JTextField(20);
-    
-            // Donut Cost
-            JLabel cost = new JLabel("<html>Cost</html>");
             textCost = new JTextField(20);
 
-            JLabel labelFrost = new JLabel("<html>Frosting</html>");
             textFrost = new JComboBox<Frosting>(Frosting.values());
-
-            JLabel labelFill = new JLabel("<html>Filling</html>");
             textFill = new JComboBox<Filling>(Filling.values());
 
             String[] options = {"No Sprinkles", "Sprinkles"};
-            JLabel sprinklesLabel = new JLabel("<html>Sprinkles</html>");
             textSprinkles = new JComboBox<String>(options);
 
-            Object[] objects = {
-                name, textName,
-                price, textPrice,
-                cost, textCost,
-                labelFrost, textFrost,
-                labelFill, textFill,
-                sprinklesLabel, textSprinkles,
-            };
+            north.add(new JLabel("<html>Donut Name</html>"), BorderLayout.NORTH);
+            north.add(textName, BorderLayout.CENTER);
+            north.add(new JLabel("<html>Price</html>"), BorderLayout.SOUTH);
+
+            center.add(textPrice, BorderLayout.NORTH);
+            center.add(new JLabel("<html>Cost</html>"), BorderLayout.CENTER);
+            center.add(textCost, BorderLayout.SOUTH);
+
+            northCombo.add(new JLabel("<html>Frosting</html>"), BorderLayout.NORTH);
+            northCombo.add(textFrost, BorderLayout.CENTER);
+
+            centerCombo.add(new JLabel("<html>Filling</html>"), BorderLayout.NORTH);
+            centerCombo.add(textFill, BorderLayout.CENTER);
+
+            southCombo.add(new JLabel("<html>Sprinkles</html>"), BorderLayout.NORTH);      
+            southCombo.add(textSprinkles, BorderLayout.CENTER);
+
+            south.add(northCombo, BorderLayout.NORTH);
+            south.add(centerCombo, BorderLayout.CENTER);
+            south.add(southCombo, BorderLayout.SOUTH);
+
+            panel.add(north, BorderLayout.NORTH);
+            panel.add(center, BorderLayout.CENTER);
+            panel.add(south, BorderLayout.SOUTH);
 
             JOptionPane.showConfirmDialog(
                 this,
-                objects,
+                panel,
                 "New Donut",
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
 
-            String strName = getString(textName);
-            double dubPrice = getDouble(textPrice); 
-            double dubCost = getDouble(textCost);
+            boolean sprinkles = false;
 
-            Frosting frosting = Frosting.valueOf(textFrost.getSelectedItem().toString());
-            Filling filling = Filling.valueOf(textFill.getSelectedItem().toString());
-            boolean sprinkles;
+            if(!textSprinkles.getSelectedItem().toString().equals("No Sprinkles"))
+                sprinkles = true;
 
-            if(textSprinkles.getSelectedItem().toString().equals("No Sprinkles"))
-                sprinkles = false;
-            else sprinkles = true;
-
-            store.addProduct(new Donut(strName, dubPrice, dubCost, frosting, filling, sprinkles));
+            store.addProduct(new Donut(getString(textName), 
+                                       getDouble(textPrice), 
+                                       getDouble(textCost), 
+                                       Frosting.valueOf(textFrost.getSelectedItem().toString()), 
+                                       Filling.valueOf(textFill.getSelectedItem().toString()), 
+                                       sprinkles));
+            
             updateDisplay(0);
         }catch(Exception e){
             msg.setText("Failed to create new Donut: " + e);
@@ -517,22 +574,24 @@ public class MainWin extends JFrame {
 
     protected void onCreateCustomerClick(){
         try{
-            // Name of Customer       
-            JLabel name = new JLabel("<html>Name</html>");       
-            textName = new JTextField(20); 
 
-            // Customer Phone number
-            JLabel phone = new JLabel("<html>Phone</html>");
-            textPhone = new JTextField(20);
+            JPanel panel = new JPanel(new BorderLayout());
+            JPanel north = new JPanel(new BorderLayout());
+            JPanel center = new JPanel(new BorderLayout());
 
-            Object[] objects = {
-                name, textName,
-                phone, textPhone
-            };
-        
+            textName = new JTextField(20);              // Name of Customer   
+            textPhone = new JTextField(20);             // Customer Phone number
+
+            north.add(new JLabel("<html>Name</html>"), BorderLayout.NORTH);            
+            north.add(textName, BorderLayout.CENTER);
+            center.add(new JLabel("<html>Phone</html>"), BorderLayout.NORTH);
+            center.add(textPhone, BorderLayout.CENTER);
+            panel.add(north, BorderLayout.NORTH);
+            panel.add(center, BorderLayout.CENTER);
+
             int button = JOptionPane.showConfirmDialog(
                 this,
-                objects,
+                panel,
                 "New Customer",
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE
@@ -542,6 +601,7 @@ public class MainWin extends JFrame {
             String strPhone = getString(textPhone); 
             
             store.addPerson(new Customer(strName, strPhone));
+
             updateDisplay(1);
         }catch(Exception e){
             msg.setText("Failed to create new Customer: " + e);
@@ -557,9 +617,6 @@ public class MainWin extends JFrame {
         JPanel north = new JPanel(new BorderLayout());
         JPanel center = new JPanel(new BorderLayout());
 
-        JLabel customers = new JLabel("<html>Customers</html>");
-        JLabel servers   = new JLabel("<html>Servers</html>");
-        
         ArrayList<Person> serverList = new ArrayList<>();
         ArrayList<Person> customerList = new ArrayList<>();
 
@@ -573,13 +630,13 @@ public class MainWin extends JFrame {
         JComboBox textCustomer = new JComboBox<Object>(customerList.toArray());
         JComboBox textServer = new JComboBox<Object>(serverList.toArray());
         
-        north.add(customers, BorderLayout.NORTH);
+        north.add(new JLabel("<html>Customers</html>"), BorderLayout.NORTH);
         north.add(textCustomer, BorderLayout.CENTER);
-        center.add(servers, BorderLayout.NORTH);
+        center.add(new JLabel("<html>Servers</html>"), BorderLayout.NORTH);
         center.add(textServer, BorderLayout.CENTER);
         panel.add(north, BorderLayout.NORTH);
         panel.add(center, BorderLayout.CENTER);
-1
+
         JOptionPane.showConfirmDialog(
             this,
             panel,
@@ -592,52 +649,58 @@ public class MainWin extends JFrame {
 
         order = new Order(c, s);
         store.addOrders(order);
+        
 
         /****************
             Products
         *****************/
 
-        try{
-            while(true){
-                panel = new JPanel(new BorderLayout());
-                JSpinner spinner = new JSpinner();
-                bAdd = new JButton("Add");
-        
-                // Display our order to the current JPanel
-                JLabel products = new JLabel("<html>" + order.toString()
-                             .replaceAll("\t", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
-                             .replaceAll("<","&lt;")
-                             .replaceAll(">", "&gt;")
-                             .replaceAll("\n", "<br/>")
-                             + "</html>");
+        try{   
+            // Display our order to the current JPanel
+            JLabel products = new JLabel("<html>" + order.toString()
+                         .replaceAll("\t", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
+                         .replaceAll("<","&lt;")
+                         .replaceAll(">", "&gt;")
+                         .replaceAll("\n", "<br/>")
+                         + "</html>");
 
-                Object[] productOptions = store.getProducts();  
-                JComboBox textProducts = new JComboBox<Object>(productOptions);
-        
-                panel.add(products, BorderLayout.NORTH);
-                panel.add(spinner, BorderLayout.CENTER);
-                panel.add(textProducts, BorderLayout.EAST);
-        
-                JOptionPane.showConfirmDialog(
-                    this,
-                    panel,
-                    "Product",
-                    JOptionPane.OK_CANCEL_OPTION,
-                    JOptionPane.QUESTION_MESSAGE);
-        
-                Product p = (Product)textProducts.getSelectedItem();
-                int quantity = (int)spinner.getValue();
-    
-                // A quantity of 0 and a orders.numberOfProducts of 0 stops empty order form being added to orders ArrayList
-                if(order.numberOfProducts() == 0 && quantity == 0){   
-                    store.removeCurrentOrder();
-                    throw new Exception("Empty order");
-                } 
+            Object[] productOptions = store.getProducts();  
+            JComboBox textProducts = new JComboBox<Object>(productOptions);
+            JSpinner spinner = new JSpinner();
 
-                if(quantity == 0) break;       // Stops the current quantify of 0 from being added
-                    
-                order.addProduct(quantity, p);
-            }
+            bAdd = new JButton("Add");
+            bAdd.addActionListener(event -> {order.addProduct((Integer)spinner.getValue(),
+                        (Product)textProducts.getSelectedItem());
+                        products.setText("<html>" + order.toString()
+                         .replaceAll("\t", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
+                         .replaceAll("<","&lt;")
+                         .replaceAll(">", "&gt;")
+                         .replaceAll("\n", "<br/>")
+                         + "</html>");
+            });
+
+            panel = new JPanel(new BorderLayout());
+            north = new JPanel(new BorderLayout());
+            north.add(products, BorderLayout.NORTH);
+
+            panel.add(textProducts, BorderLayout.EAST);
+            panel.add(spinner, BorderLayout.CENTER);
+            panel.add(bAdd, BorderLayout.WEST);
+
+            Object[] objects = {
+                north,
+                panel,
+            };
+
+            int result = JOptionPane.showConfirmDialog(
+                this,
+                objects,
+                "Product",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+            // A quantity of 0 and a orders.numberOfProducts of 0 stops empty order form being added to orders ArrayList
+            if(result != JOptionPane.OK_OPTION) return; 
         }catch(Exception e){
             msg.setText("Failed to create new Order: " + e);
         }
@@ -647,28 +710,31 @@ public class MainWin extends JFrame {
 
     protected void onCreateServerClick(){
         try{
-            // Server name
-            JLabel name = new JLabel("<html>Name</html>");
+            JPanel panel  = new JPanel(new BorderLayout());
+            JPanel north  = new JPanel(new BorderLayout());
+            JPanel center = new JPanel(new BorderLayout());
+            JPanel south  = new JPanel(new BorderLayout());
+
             textName = new JTextField(20);
-    
-            // Server Phone number
-            JLabel phone = new JLabel("<html>Phone</html>");
             textPhone = new JTextField(20);
-    
-            // Server Social
-            JLabel social = new JLabel("<html>SSN</html>");
             textSocial = new JTextField(20);
 
-    
-            Object[] objects = {
-                name, textName,
-                phone, textPhone,
-                social, textSocial
-            };
+            north.add(new JLabel("<html>Name</html>"), BorderLayout.NORTH);
+            north.add(textName, BorderLayout.CENTER);
+
+            center.add(new JLabel("<html>Phone</html>"), BorderLayout.NORTH);
+            center.add(textPhone, BorderLayout.CENTER);
+
+            south.add(new JLabel("<html>SSN</html>"), BorderLayout.NORTH);
+            south.add(textSocial, BorderLayout.CENTER);
+
+            panel.add(north, BorderLayout.NORTH);
+            panel.add(center, BorderLayout.CENTER);
+            panel.add(south, BorderLayout.SOUTH);
 
             JOptionPane.showConfirmDialog(
                 this,
-                objects,
+                panel,
                 "New Server",
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
@@ -678,14 +744,340 @@ public class MainWin extends JFrame {
             String strSocial = getString(textSocial);
 
             store.addPerson(new Server(strName, strPhone, strSocial));
+
             updateDisplay(1);
         }catch(Exception e){
             msg.setText("Failed to create new Server: " + e);
         }
+
+        updateDisplay(2);
     }
 
     /************************************************
-                    About ActionListeners
+                    Edit ActionListeners
+    ************************************************/
+
+    protected void onEditDonutClick(){
+        JPanel panel = new JPanel(new BorderLayout());
+        JLabel label = new JLabel();
+        bAdd = new JButton("Change");
+
+        ArrayList<Donut> donutsList = new ArrayList<>();
+        
+        Object[] products = store.getProducts();
+
+        for(int i = 0; i < store.numberOfProducts(); i++){
+            if(products[i] instanceof Donut)
+                donutsList.add((Donut)products[i]);
+        }
+
+        products = donutsList.toArray();
+        JComboBox textDonuts = new JComboBox<Object>(products);
+
+        panel.add(new JLabel("<html>Which donut product would you like to edit?</html>"), BorderLayout.NORTH);
+        panel.add(textDonuts, BorderLayout.CENTER);
+        bAdd.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                try{
+                    JPanel panel = new JPanel(new BorderLayout());
+                    JPanel north = new JPanel(new BorderLayout());
+                    JPanel northCombo = new JPanel(new BorderLayout());
+                    JPanel center = new JPanel(new BorderLayout());
+                    JPanel centerCombo = new JPanel(new BorderLayout());
+                    JPanel south = new JPanel(new BorderLayout());
+                    JPanel southCombo = new JPanel(new BorderLayout());
+
+                    Donut donut = (Donut)textDonuts.getSelectedItem();
+
+                    textName = new JTextField(donut.getName());
+                    textPrice = new JTextField(String.valueOf(donut.getPrice()));
+                    textCost = new JTextField(String.valueOf(donut.getCost()));
+        
+                    textFrost = new JComboBox<Frosting>(Frosting.values());
+                    textFrost.setSelectedItem(donut.getFrosting());
+                    textFill = new JComboBox<Filling>(Filling.values());
+                    textFill.setSelectedItem(donut.getFilling());
+    
+                    String[] options = {"No Sprinkles", "Sprinkles"};
+                    textSprinkles = new JComboBox<String>(options);
+                    textSprinkles.setSelectedItem(donut.getSprinkles());
+
+                    boolean sprinkles = false;
+        
+                    if(!textSprinkles.getSelectedItem().toString().equals("No Sprinkles"))
+                        sprinkles = true;
+        
+                    north.add(new JLabel("<html>Donut Name</html>"), BorderLayout.NORTH);
+                    north.add(textName, BorderLayout.CENTER);
+                    north.add(new JLabel("<html>Price</html>"), BorderLayout.SOUTH);
+        
+                    center.add(textPrice, BorderLayout.NORTH);
+                    center.add(new JLabel("<html>Cost</html>"), BorderLayout.CENTER);
+                    center.add(textCost, BorderLayout.SOUTH);
+        
+                    northCombo.add(new JLabel("<html>Frosting</html>"), BorderLayout.NORTH);
+                    northCombo.add(textFrost, BorderLayout.CENTER);
+        
+                    centerCombo.add(new JLabel("<html>Filling</html>"), BorderLayout.NORTH);
+                    centerCombo.add(textFill, BorderLayout.CENTER);
+        
+                    southCombo.add(new JLabel("<html>Sprinkles</html>"), BorderLayout.NORTH);      
+                    southCombo.add(textSprinkles, BorderLayout.CENTER);
+        
+                    south.add(northCombo, BorderLayout.NORTH);
+                    south.add(centerCombo, BorderLayout.CENTER);
+                    south.add(southCombo, BorderLayout.SOUTH);
+    
+                    panel.add(north, BorderLayout.NORTH);
+                    panel.add(center, BorderLayout.CENTER);
+                    panel.add(south, BorderLayout.SOUTH);
+        
+                    int result = JOptionPane.showConfirmDialog(
+                        null,
+                        panel,
+                        "New Donut",
+                        JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+
+                    if(result != JOptionPane.OK_OPTION) return;
+                    else{
+                        store.removeProduct(donut);
+                        
+                        store.addProduct(new Donut(getString(textName), 
+                                        getDouble(textPrice), 
+                                        getDouble(textCost), 
+                                        Frosting.valueOf(textFrost.getSelectedItem().toString()), 
+                                        Filling.valueOf(textFill.getSelectedItem().toString()), 
+                                        sprinkles));
+                    }
+        
+                    updateDisplay(0);
+                }catch(Exception exception){
+                    msg.setText("Failed to create new Donut: " + e);
+                }
+            }
+        });
+        panel.add(bAdd, BorderLayout.SOUTH);
+
+        int result = JOptionPane.showConfirmDialog(
+            this,
+            panel,
+            "Edit Donut",
+            JOptionPane.OK_CANCEL_OPTION,
+            JOptionPane.QUESTION_MESSAGE);
+
+        if(result != JOptionPane.OK_OPTION) return;
+    }
+
+    protected void onEditJavaClick(){
+        JPanel panel = new JPanel(new BorderLayout());
+        JLabel label = new JLabel();
+        bAdd = new JButton("Change");
+
+        ArrayList<Java> javaList = new ArrayList<>();
+
+        Object[] products = store.getProducts();
+
+        for(int i = 0; i < store.numberOfProducts(); i++){
+            if(products[i] instanceof Java)
+                javaList.add((Java)products[i]);
+        }
+
+        products = javaList.toArray();
+        JComboBox textJava = new JComboBox<Object>(products);
+
+        panel.add(new JLabel("<html>Which java product would you like to edit?</html>"), BorderLayout.NORTH);
+        panel.add(textJava, BorderLayout.CENTER);
+        bAdd.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                try{
+                    JPanel panel       = new JPanel(new BorderLayout());
+                    JPanel north       = new JPanel(new BorderLayout());
+                    JPanel northCombo  = new JPanel(new BorderLayout());
+                    JPanel center      = new JPanel(new BorderLayout());
+                    JPanel centerCombo = new JPanel(new BorderLayout());
+                    JPanel south       = new JPanel(new BorderLayout());
+
+                    Java java = (Java)textJava.getSelectedItem();
+
+                    textName  = new JTextField(java.getName());
+                    textPrice = new JTextField(String.valueOf(java.getPrice()));
+                    textCost  = new JTextField(String.valueOf(java.getCost()));
+                    textDark  = new JComboBox<Darkness>(Darkness.values());
+                    textDark.setSelectedItem(java.getDarkness());
+
+                    north.add(new JLabel("<html>Java Name</html>"), BorderLayout.NORTH);
+                    north.add(textName, BorderLayout.CENTER);
+                    north.add(new JLabel("<html>Price</html>"), BorderLayout.SOUTH);
+                    
+                    center.add(textPrice, BorderLayout.NORTH);
+                    center.add(new JLabel("<html>Cost</html>"), BorderLayout.CENTER);
+                    center.add(textCost, BorderLayout.SOUTH);
+            
+                    northCombo.add(new JLabel("<html>Darkness</html>"), BorderLayout.NORTH);
+                    northCombo.add(textDark, BorderLayout.CENTER);
+
+                    south.add(northCombo, BorderLayout.NORTH);
+                    south.add(centerCombo, BorderLayout.CENTER);
+
+                    panel.add(north, BorderLayout.NORTH);
+                    panel.add(center, BorderLayout.CENTER);
+                    panel.add(south, BorderLayout.SOUTH);
+            
+                    int result = JOptionPane.showConfirmDialog(
+                        null,
+                        panel,
+                        "New Java",
+                        JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+
+                    if(result != JOptionPane.OK_OPTION) return;
+                    else{
+                        store.removeProduct(java);
+
+                        Java j = new Java(getString(textName), 
+                                         getDouble(textPrice), 
+                                         getDouble(textCost), 
+                                         Darkness.valueOf(textDark.getSelectedItem().toString()));
+
+                        store.addProduct(j);
+
+                        while(true) {
+                            Shot shot = (Shot) selectFromArray("Shot?", Shot.values());
+                            if(shot.equals(Shot.None)) break;
+                            j.addShot(shot);
+                        }
+                    }
+    
+                    updateDisplay(0);
+                }catch(Exception exception){
+                    msg.setText("Failed to create new Donut: " + e);
+                }
+            }
+        });
+        panel.add(bAdd, BorderLayout.SOUTH);
+
+        int result = JOptionPane.showConfirmDialog(
+            this,
+            panel,
+            "Edit Donut",
+            JOptionPane.OK_CANCEL_OPTION,
+            JOptionPane.QUESTION_MESSAGE);
+
+        if(result != JOptionPane.OK_OPTION) return;
+    }
+
+    /************************************************
+                    Reports ActionListeners
+    ************************************************/
+
+    protected void onProfitLossClick(){
+
+        ArrayList<Product> products = new ArrayList<>();
+        ArrayList<Integer> quantities = new ArrayList<>();
+        int columnCount = 4;
+        double totalCost = 0;
+        double totalPrice = 0;
+        double totalProfit = 0;
+        String[][] columns = new String[store.numberOfProducts()+1][columnCount];
+        String[] columnNames = {"Product", "Income", "Costs", "Profit",};
+        double[] values = new double[columnCount-1];
+
+        // Pass product and quantity from the order to a hashmap to ArrayLists
+        for(int i=0; i<store.numberOfOrders(); i++){
+            Order o = store.getOrder(i);
+            HashMap<Product, Integer> tempMap = o.getMap();
+
+            for(Product key : tempMap.keySet()){
+               products.add(key);
+               quantities.add(tempMap.get(key));
+            }
+        }  
+
+        // Searches the arraylists for multiples of the same product an adds the together
+        for(int i=0; i<products.size(); i++){
+            for(int j=0; j<products.size(); j++){
+                if(products.get(i).getName().equals(products.get(j).getName()) && i != j){
+                    int tempInt = quantities.get(i) + quantities.get(j);
+                    
+                    quantities.set(i, tempInt);
+                    quantities.remove(j);
+                    products.remove(j);
+                }
+            }
+        }
+
+        for(int i=0; i<products.size(); i++){
+            columns[i][0] = products.get(i).getName();                                                                  // Product name
+
+            columns[i][1] = String.format("%.2f", products.get(i).getPrice() * quantities.get(i));                             // Product price or income
+            totalPrice += Double.parseDouble(columns[i][1]);
+            
+            columns[i][2] = String.format("%.2f", products.get(i).getCost() * quantities.get(i));                              // Product cost
+            totalCost += Double.parseDouble(columns[i][2]);
+            
+            columns[i][3] = String.format("%.2f", Double.parseDouble(columns[i][1]) - Double.parseDouble(columns[i][2]));      // Product profit
+            totalProfit += Double.parseDouble(columns[i][3]);
+        }
+        
+        columns[store.numberOfProducts()][0] = "Total";
+        columns[store.numberOfProducts()][1] = String.format("%.2f", totalPrice);
+        columns[store.numberOfProducts()][2] = String.format("%.2f", totalCost);
+        columns[store.numberOfProducts()][3] = String.format("%.2f", totalProfit);
+
+        JTable table = new JTable(columns, columnNames);
+        JScrollPane pane = new JScrollPane(table);
+
+        int result = JOptionPane.showConfirmDialog(
+            this,
+            pane,
+            "Profits & Loss",
+            JOptionPane.OK_CANCEL_OPTION,
+            JOptionPane.QUESTION_MESSAGE);
+
+        if(result != JOptionPane.OK_OPTION) return;
+    }
+
+    protected void onServerReportClick(){
+        ArrayList<Server> servers = new ArrayList<>();
+        int columnCount = 4;
+
+        for(int i=0; i<store.numberOfPeople(); i++){
+            if(store.getPerson(i) instanceof Server)
+                servers.add((Server)store.getPerson(i));
+        }
+
+        String[] columnNames = {"Name", "Phone", "SSN", "Orders"};
+        String[][] columns = new String[servers.size()][columnCount];
+
+        for(int i=0; i<servers.size(); i++){
+            int orderCount = 0;
+            for(int j=0; j<store.numberOfOrders(); j++){
+                // if server name == server name on the order
+                if(servers.get(i).getName().equals(store.getOrder(j).getServer().getName()))
+                    orderCount++;
+            }
+            columns[i][0] = servers.get(i).getName();
+            columns[i][1] = servers.get(i).getPhone();
+            columns[i][2] = servers.get(i).getSocial();
+            columns[i][3] = String.valueOf(orderCount);
+        }
+
+        JTable table = new JTable(columns, columnNames);
+        JScrollPane pane = new JScrollPane(table);
+
+        int result = JOptionPane.showConfirmDialog(
+            this,
+            pane,
+            "Server Report",
+            JOptionPane.OK_CANCEL_OPTION,
+            JOptionPane.QUESTION_MESSAGE);
+
+        if(result != JOptionPane.OK_OPTION) return;
+    }
+
+    /************************************************
+                    Help ActionListeners
     ************************************************/
 
     protected void onAboutClick() {                 // Display About dialog
@@ -826,15 +1218,13 @@ public class MainWin extends JFrame {
         String newPrompt = prompt.getText().toString();
         double result = 0.0;
        
-        if(newPrompt == null ) 
+        if(newPrompt == null) 
             throw new Exception("Invalid Double");
 
         result = Double.parseDouble(prompt.getText()); 
         
         return result;
     }
-
-    
 
     /************************************************ 
                         Main
@@ -877,6 +1267,8 @@ public class MainWin extends JFrame {
     private JMenuItem mAbout;
     private JMenuItem mCustomer;
     private JMenuItem mDonut; 
+    private JMenuItem mEditDonut;
+    private JMenuItem mEditJava;
     private JMenuItem mJava;                  
     private JMenuItem mNew;
     private JMenuItem mOpen;
@@ -884,10 +1276,12 @@ public class MainWin extends JFrame {
     private JMenuItem mOrders;
     private JMenuItem mPeople;
     private JMenuItem mProducts;
+    private JMenuItem mProfitLoss;
     private JMenuItem mQuit;
     private JMenuItem mSave;
     private JMenuItem mSaveAs;
     private JMenuItem mServer;
+    private JMenuItem mServerReport;
 
     private JComboBox textDark;
     private JComboBox textFill;

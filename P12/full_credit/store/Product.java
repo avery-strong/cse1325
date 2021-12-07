@@ -24,11 +24,15 @@ public class Product {
         this.cost = Double.parseDouble(multiTokenizer.nextToken());
     }
 
+    public Product getProduct(){ return this; }
+
     public void save(BufferedWriter out) throws IOException{
         out.write('\n' + "" + "product" + '|' + name + '|' + price + '|' + cost);
     }
 
-    public String name() { return name; }
+    public String getName(){ return name; }
+    public double getCost(){ return cost; }
+    public double getPrice(){ return price; }
 
     @Override
     public String toString() {

@@ -23,7 +23,7 @@ public class Server extends Person{
 		this.ssn = multiTokenizer.nextToken();
 	}
 
-	public String getServerName(){ return name; }
+	public String getSocial(){ return ssn; }
 
 	@Override
 	public void save(BufferedWriter out) throws IOException{

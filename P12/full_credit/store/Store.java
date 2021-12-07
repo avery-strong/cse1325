@@ -28,7 +28,7 @@ public class Store {
         out.write("" + storeName + '|' + people.size());
     }
 
-    public String name() { return storeName; }
+    public String getName() { return storeName; }
 
     /****************************************
                 Product Methods
@@ -40,7 +40,7 @@ public class Store {
         Product p;
         int i;
         for(i = 0; i < people.size(); i++)
-            if(str.equals(getProduct(i).name())) break; 
+            if(str.equals(getProduct(i).getName())) break; 
         
         p = products.get(i);
 
@@ -57,6 +57,7 @@ public class Store {
     }
 
     public void addProduct(Product product){ this.products.add(product); }
+    public void removeProduct(Product product){ this.products.remove(product); }
 
     public int numberOfProducts(){ return products.size(); }
 

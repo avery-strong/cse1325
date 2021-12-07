@@ -23,6 +23,7 @@ public class Person{
 	}
 
 	public String getName(){ return name; }
+	public String getPhone(){ return phone; }
 
 	public void save(BufferedWriter out) throws IOException{
 		out.write('\n' + "" + name + '|' + phone);

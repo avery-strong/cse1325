@@ -51,6 +51,8 @@ public class Order{
 		}
 	}
 
+	public HashMap<Product, Integer> getMap(){ return products; }
+
 	public void addProduct(int quantity, Product product){ products.put(product, quantity); }
 
 	public int getId(){ return id; }
@@ -63,13 +65,15 @@ public class Order{
 					+ id + '|' 
 					+ nextId + '|'
 					+ customer.getCustomerName() + '|'
-					+ server.getServerName()); 
+					+ server.getName()); 
 		//customer.save(out);
 		//server.save(out);
 		for(Product key : products.keySet()){
-			out.write("" + '|' + products.get(key) + '|' + key.name());
+			out.write("" + '|' + products.get(key) + '|' + key.getName());
 		}
 	}
+
+	public Server getServer(){ return server; }
 
 	@Override
 	public String toString(){
