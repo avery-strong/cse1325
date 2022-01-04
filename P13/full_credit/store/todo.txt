@@ -1,0 +1,9 @@
+add product quantity to end of line
+add \n at beginning of all product, person .write()
+
+Order.java
+	read token for java or donut
+	begin parsing buffer into new token
+	pull productQuantity from end of line but do not append to new token
+	pass token to product Constructor
+	pass product and token to products hashMap
